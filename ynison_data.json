@@ -7,8 +7,8 @@
       "playback_speed": 1.0,
       "version": {
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-        "version": "8709763352557164098",
-        "timestamp_ms": "1764446654187"
+        "version": "2877885555136556981",
+        "timestamp_ms": "1764446654147"
       }
     },
     "player_queue": {
@@ -540,8 +540,8 @@
       },
       "version": {
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-        "version": "3029361556720532801",
-        "timestamp_ms": "1764446533030"
+        "version": "2877885555136556981",
+        "timestamp_ms": "1764446654147"
       },
       "entity_context": "BASED_ON_ENTITY_BY_DEFAULT",
       "adding_options_optional": {
@@ -668,13 +668,12 @@
         "volume": 0.4,
         "version": {
           "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-          "version": "7637783201711927289",
-          "timestamp_ms": "1764441989420"
+          "version": "5978266092908975970",
+          "timestamp_ms": "1764448487321"
         }
       }
     }
   ],
-  "active_device_id_optional": "bd9fec84948fae03a2ad8e245682da6d",
   "timestamp_ms": "1764446654147",
   "rid": "ac281c26-a047-4419-ad00-e4fbfda1cba3"
 }

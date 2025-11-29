@@ -1973,3 +1973,74 @@ ConnectionError: Cannot send requests while disconnected
 [ INFO/2025-11-30 01:18:26,478] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
 [ INFO/2025-11-30 01:18:56,918] __main__: Yandex Music client initialized successfully.
 [ INFO/2025-11-30 01:18:57,822] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:19:28,541] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:19:29,449] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:19:59,855] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:20:00,830] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:20:31,221] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:20:32,128] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:21:02,576] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:21:03,396] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:21:33,800] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:21:35,071] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:22:05,592] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:22:06,717] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:22:37,158] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:22:38,795] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:23:09,246] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:23:10,118] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:23:40,522] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:23:41,627] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:24:12,064] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:24:13,037] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:24:43,468] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:24:44,323] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:25:14,730] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:25:15,564] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:25:45,948] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:25:46,788] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:26:17,195] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:26:18,182] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:26:48,682] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:26:49,675] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:27:20,116] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:27:21,048] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:27:51,446] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:27:52,264] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:28:22,657] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:28:23,729] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:28:26,446] telethon.client.updates: Got difference for channel 1423788859 updates
+[ INFO/2025-11-30 01:28:32,114] telethon.client.updates: Got difference for channel 1420376658 updates
+[ INFO/2025-11-30 01:28:42,551] telethon.client.updates: Got difference for channel 1423788859 updates
+[ INFO/2025-11-30 01:28:42,670] telethon.client.updates: Got difference for channel 1420376658 updates
+[ INFO/2025-11-30 01:28:42,800] telethon.client.updates: Got difference for channel 1750799539 updates
+[ INFO/2025-11-30 01:28:51,737] telethon.client.updates: Got difference for channel 1750799539 updates
+[ INFO/2025-11-30 01:28:51,855] telethon.client.updates: Got difference for channel 1423788859 updates
+[ INFO/2025-11-30 01:28:54,117] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:28:54,914] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:29:25,324] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:29:26,187] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:29:56,594] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:29:57,393] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:30:27,889] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:30:28,981] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:30:59,397] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:31:00,212] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:31:30,624] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:31:31,591] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:32:02,010] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:32:02,816] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:32:33,217] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:32:34,173] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:33:04,570] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:33:05,385] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:33:35,828] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:33:36,775] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:34:07,243] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:34:08,469] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:34:38,942] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:34:39,971] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:35:10,439] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:35:11,805] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:35:42,324] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:35:43,286] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
