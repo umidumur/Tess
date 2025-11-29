@@ -651,25 +651,25 @@
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
         "title": "samsung SM-S916B",
         "type": "ANDROID",
-        "app_name": "Yandex Music",
-        "app_version": "2025.11.3 #124.1gpr"
+        "app_name": "",
+        "app_version": ""
       },
-      "volume": 0.4,
+      "volume": 0.0,
       "capabilities": {
         "can_be_player": true,
         "can_be_remote_controller": true,
-        "volume_granularity": 15
+        "volume_granularity": 0
       },
       "session": {
-        "id": "6046328494415597276"
+        "id": "0"
       },
-      "is_offline": false,
+      "is_offline": true,
       "volume_info": {
-        "volume": 0.4,
+        "volume": 0.0,
         "version": {
-          "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-          "version": "5978266092908975970",
-          "timestamp_ms": "1764448487321"
+          "device_id": "",
+          "version": "0",
+          "timestamp_ms": "0"
         }
       }
     }

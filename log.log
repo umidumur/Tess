@@ -2044,3 +2044,35 @@ ConnectionError: Cannot send requests while disconnected
 [ INFO/2025-11-30 01:35:11,805] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
 [ INFO/2025-11-30 01:35:42,324] __main__: Yandex Music client initialized successfully.
 [ INFO/2025-11-30 01:35:43,286] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:36:13,722] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:36:14,683] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:36:45,078] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:36:46,025] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:37:16,429] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:37:17,233] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:37:47,624] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:37:48,446] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:38:18,832] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:38:19,646] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:38:50,033] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:38:50,982] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:39:21,399] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:39:22,220] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:39:52,941] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:39:53,831] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:40:18,729] telethon.client.updates: Got difference for channel 1070871253 updates
+[ INFO/2025-11-30 01:40:24,734] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:40:25,549] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:40:55,938] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:40:56,930] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:41:27,838] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:41:28,685] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:41:59,165] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:41:59,946] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:42:30,387] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:42:31,303] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:43:01,691] __main__: Yandex Music client initialized successfully.
+[ INFO/2025-11-30 01:43:02,676] __main__: Now Playing: Shots by Imagine Dragons, Broiler || False
+[ INFO/2025-11-30 01:43:15,037] scripts.telegram_logger: Log sent to Telegram: Yandex sync bot stopped by user
+[ INFO/2025-11-30 01:43:31,177] telethon.client.updates: Got difference for channel 1750799539 updates
+[ INFO/2025-11-30 01:43:51,856] telethon.client.updates: Got difference for channel 1423788859 updates
