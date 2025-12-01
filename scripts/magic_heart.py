@@ -386,7 +386,7 @@ async def process_reply(event: NewMessage.Event):
     Returns:
         Message ID of sent message, or None if failed.
     """
-    await client.send_message(event.peer_id.user_id, message=HEART)
+    await client.send_message(event.peer_id.user_id, message=HEART, reply_to=event.message.id)
     messages = await client.get_messages(event.chat_id, limit=1)
     if messages:
         msg = messages if not isinstance(messages, list) else messages[0]

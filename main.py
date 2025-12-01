@@ -109,6 +109,7 @@ async def handle_outgoing_message(event: NewMessage.Event):
 **Start:**
     • `/start_auto_reply` - Start magic heart bot
     • `/start_ym_sync` - Start Yandex Music sync
+    • `/start_all` - Start all bots
 
 **Stop:**
     • `/stop_auto_reply` - Stop magic heart bot
@@ -140,6 +141,10 @@ async def handle_outgoing_message(event: NewMessage.Event):
         elif message_text == '/start_ym_sync':
             await start_bot('scripts/yandex_sync.py')
             await event.reply('Yandex sync started')
+        elif message_text == '/start_all':
+            await start_bot('scripts/magic_heart.py')
+            await start_bot('scripts/yandex_sync.py')
+            await event.reply('All bots started')
         
         # Stop commands
         elif message_text == '/stop_auto_reply':
