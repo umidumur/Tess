@@ -22,6 +22,8 @@ from mutagen.id3._frames import APIC, TALB, TIT2, TPE1
 from mutagen.mp3 import MP3
 from telethon.errors import AboutTooLongError, FloodWaitError
 from telethon.tl.functions.account import UpdateProfileRequest
+from telethon.tl.functions.users import GetFullUserRequest
+from telethon.tl.types import InputUserSelf
 from telethon.events import NewMessage
 from yandex_music import ClientAsync
 
@@ -55,6 +57,7 @@ INITIAL_BIO: str = os.getenv("INITIAL_BIO") or ""
 YM_THREAD: int = int(os.getenv("YM_THREAD", "0"))
 BIO_THREAD: int = int(os.getenv("BIO_THREAD", "0"))
 DOWNLOAD_DIR = os.getenv("DOWNLOAD_DIR", "downloads")
+TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "")
 
 # Bio key to identify bot-managed bios
 # NEVER use this key in your original bio!
@@ -62,9 +65,8 @@ KEY = "🎶"
 
 # Bio format templates (tried in order, most detailed first)
 BIOS = [
-    KEY + " Now Playing: {title} - {artists} {progress}/{duration}",
-    KEY + " Now Playing: {title} - {artists}",
-    KEY + " : {title} - {artists}",
+    KEY + " Now Playing: {title} by {artists}",
+    KEY + " : {title} by {artists}",
     KEY + " Now Playing: {title}",
     KEY + " : {title}",
 ]
@@ -127,6 +129,70 @@ class BioDatabase:
 
 
 bio_db = BioDatabase()
+
+
+class TrackDatabase:
+    """Manages track cache persistence.
+    
+    Attributes:
+        db_file: Path to JSON database file.
+        db: In-memory database dictionary.
+    """
+
+    def __init__(self, db_file: str = "track_database.json"):
+        """Initialize track database manager.
+        
+        Args:
+            db_file: Path to JSON database file (default: track_database.json).
+        """
+        self.db_file = db_file
+        self.db = self._load()
+
+    def _load(self) -> dict:
+        """Load database from file.
+        
+        Returns:
+            Dictionary containing database contents.
+        """
+        try:
+            with open(self.db_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {"track_cache": {}}
+
+    def _save(self) -> None:
+        """Persist database to file."""
+        with open(self.db_file, 'w', encoding='utf-8') as f:
+            json.dump(self.db, f, indent=2, ensure_ascii=False)
+    
+    def get_track_file_id(self, track_id: str) -> Optional[str]:
+        """Get cached Telegram file_id for a track.
+        
+        Args:
+            track_id: Yandex Music track ID.
+            
+        Returns:
+            Telegram file_id if cached, None otherwise.
+        """
+        if "track_cache" not in self.db:
+            self.db["track_cache"] = {}
+        return self.db["track_cache"].get(track_id)
+    
+    def set_track_file_id(self, track_id: str, file_id: str) -> None:
+        """Cache Telegram file_id for a track.
+        
+        Args:
+            track_id: Yandex Music track ID.
+            file_id: Telegram file_id of uploaded audio.
+        """
+        if "track_cache" not in self.db:
+            self.db["track_cache"] = {}
+        self.db["track_cache"][track_id] = file_id
+        self._save()
+
+
+track_db = TrackDatabase()
+last_track_id = None  # Track last playing track to detect changes
 
 
 def ms_converter(millis):
@@ -468,7 +534,7 @@ async def download_track(chat_id: int, track_url: Optional[str] = None):
         
         # Add cover art
         if track.cover_uri and audio.tags is not None:
-            cover_url = f"https://{track.cover_uri.replace('%%', '400x400')}"
+            cover_url = f"https://{track.cover_uri.replace('%%', '1000x1000')}"
             async with ClientSession() as session:
                 async with session.get(cover_url) as resp:
                     if resp.status == 200:
@@ -496,7 +562,8 @@ async def download_track(chat_id: int, track_url: Optional[str] = None):
         track_caption = (
             f"🎵 Title: **{track.title}**\n"
             f"👤 Artist: {', '.join([a.name for a in track.artists if a.name])}\n"
-            f"💿 Album: {track.albums[0].title if track.albums else 'Unknown'}"
+            f"💿 Album: {track.albums[0].title if track.albums else 'Unknown'}\n"
+            f"💾 Size: {os.path.getsize(filepath) // (1024 * 1024)} MB\n"
         )
 
         
@@ -513,6 +580,79 @@ async def download_track(chat_id: int, track_url: Optional[str] = None):
         return None
 
 
+async def upload_track_to_channel(track_id: str, title: str, artists: str, album: str):
+    """Upload track to Telegram channel with caching.
+    
+    Checks if track was already uploaded (cached file_id). If yes, sends
+    using file_id. If no, downloads, uploads, and caches the file_id.
+    
+    Args:
+        track_id: Yandex Music track ID.
+        title: Track title.
+        artists: Track artists.
+        album: Track album.
+    """
+    try:
+        # Check if track is already cached
+        cached_file_id = track_db.get_track_file_id(track_id)
+        
+        
+        # Prepare caption
+        caption = (
+            f"🎵 **{title}**\n"
+            f"👤 {artists}\n"
+            f"💿 {album}\n"
+            f"🎧 Listen on [Yandex Music](https://music.yandex.ru/track/{track_id})"
+        )
+        
+        if cached_file_id:
+            # Use cached file_id
+            logger.info(f"Using cached file for track {track_id}")
+            await client_tg.send_file(
+                TELEGRAM_CHANNEL_ID,
+                file=cached_file_id,
+                caption=caption,
+                parse_mode='markdown'
+            )
+            logger.info(f"Sent cached track to channel: {title}")
+        else:
+            # Download and upload new track
+            logger.info(f"Downloading track {track_id} for channel upload")
+            result = await download_track(int(TELEGRAM_CHANNEL_ID), f"https://music.yandex.ru/track/{track_id}")
+            
+            if result:
+                filepath, _ = result  # Ignore download_track's caption, use our own
+                
+
+                # Upload to channel
+                message = await client_tg.send_file(
+                    int(TELEGRAM_CHANNEL_ID),
+                    file=filepath,
+                    caption=caption,
+                    parse_mode='markdown'
+                )
+                
+                # Cache the file_id
+                if hasattr(message, 'media') and message.media and hasattr(message.media, 'document'):  # type: ignore
+                    file_id = message.media.document.id  # type: ignore
+                    track_db.set_track_file_id(track_id, file_id)
+                    logger.info(f"Cached file_id for track {track_id}")
+                
+                # Clean up local file
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                    logger.info(f"Deleted local file: {filepath}")
+                
+                logger.info(f"Uploaded new track to channel: {title}")
+            else:
+                logger.warning(f"Failed to download track {track_id}")
+                
+    except Exception as e:
+        error_msg = f"Error uploading track to channel: {e}"
+        logger.error(error_msg, exc_info=True)
+        await telegram_log(error_msg, topic_id=YM_THREAD, level="ERROR")
+
+
 async def update_bio():
     """Fetch currently-playing track and update Telegram bio.
     
@@ -526,6 +666,7 @@ async def update_bio():
     bot-managed bios and distinguish them from user-set bios.
     """
     
+    global last_track_id
     
     try:
         track_info = await get_current_track_info()
@@ -534,9 +675,9 @@ async def update_bio():
             logger.warning("Could not fetch track info")
             return
         
-        me = await client_tg.get_me()
-        current_bio = getattr(me, "about", "") or ""
-        
+        full_user = await client_tg(GetFullUserRequest(InputUserSelf()))
+        current_bio = full_user.full_user.about or "" # type: ignore
+
         # Check if current bio is bot-managed (has the KEY)
         is_bot_managed = KEY in current_bio
         logger.debug(
@@ -545,65 +686,79 @@ async def update_bio():
         )
         
         # If bio doesn't have our KEY, it's user-managed - save it
-        if not is_bot_managed and current_bio:
-            bio_db.set_user_bio(current_bio)
-            logger.info(f"Saved user bio: {current_bio[:50]}...")
-            logger.debug("User bio saved to database.json")
+        # Also save on first run when database has no user_bio yet
+        stored_user_bio = bio_db.get_user_bio()
+        if not is_bot_managed:
+            # Save user's bio if it's different from what we have stored
+            if current_bio != stored_user_bio:
+                bio_db.set_user_bio(current_bio)
+                logger.info(f"Saved user bio: {current_bio[:50] if current_bio else '(empty)'}...")
+                logger.debug("User bio saved to database.json")
         
         if track_info["is_playing"]:
-            title = track_info["title"]
-            artists = track_info["artists"]
-            progress = ms_converter(track_info["progress_ms"])
-            duration = ms_converter(track_info["duration_ms"])
+            current_track_id = track_info["track_id"]
             
-            new_bio = ""
-            for i, fmt in enumerate(BIOS):
-                candidate = fmt.format(
-                    title=title,
-                    artists=artists,
-                    progress=progress,
-                    duration=duration
-                )
-                if len(candidate) <= LIMIT:
-                    new_bio = candidate
-                    logger.debug(
-                        f"Bio format #{i+1} fits "
-                        f"({len(candidate)}/{LIMIT} chars): {new_bio}"
+            # Only update bio if track changed
+            if current_track_id != last_track_id:
+                title = track_info["title"]
+                artists = track_info["artists"]
+                
+                new_bio = ""
+                for i, fmt in enumerate(BIOS):
+                    candidate = fmt.format(
+                        title=title,
+                        artists=artists
                     )
-                    break
-                else:
-                    logger.debug(
-                        f"Bio format #{i+1} too long "
-                        f"({len(candidate)}/{LIMIT} chars), trying next..."
+                    if len(candidate) <= LIMIT:
+                        new_bio = candidate
+                        logger.debug(
+                            f"Bio format #{i+1} fits "
+                            f"({len(candidate)}/{LIMIT} chars): {new_bio}"
+                        )
+                        break
+                    else:
+                        logger.debug(
+                            f"Bio format #{i+1} too long "
+                            f"({len(candidate)}/{LIMIT} chars), trying next..."
+                        )
+                
+                if new_bio:
+                    try:
+                        await client_tg(UpdateProfileRequest(about=new_bio))
+                        bio_db.set_bot_bio(new_bio)
+                        last_track_id = current_track_id
+                        info_msg = f"Bio updated: {new_bio}"
+                        logger.info(info_msg)
+                        await telegram_log(info_msg, topic_id=BIO_THREAD, level="INFO")
+                        
+                        # Upload track to channel if TELEGRAM_CHANNEL_ID is set
+                        if TELEGRAM_CHANNEL_ID:
+                            await upload_track_to_channel(current_track_id, title, artists, track_info["album"])
+                        
+                    except AboutTooLongError:
+                        error_msg = "Bio exceeded Telegram length limit"
+                        logger.error(error_msg)
+                        await telegram_log(
+                            error_msg,
+                            topic_id=BIO_THREAD,
+                            level="ERROR"
+                        )
+                elif not new_bio:
+                    warning_msg = (
+                        "No bio format fits within the character limit"
                     )
-            
-            if new_bio and new_bio != current_bio:
-                try:
-                    await client_tg(UpdateProfileRequest(about=new_bio))
-                    bio_db.set_bot_bio(new_bio)
-                    info_msg = f"Bio updated: {new_bio}"
-                    logger.info(info_msg)
-                    await telegram_log(info_msg, topic_id=BIO_THREAD, level="INFO")
-                except AboutTooLongError:
-                    error_msg = "Bio exceeded Telegram length limit"
-                    logger.error(error_msg)
+                    logger.warning(warning_msg)
                     await telegram_log(
-                        error_msg,
+                        warning_msg,
                         topic_id=BIO_THREAD,
-                        level="ERROR"
+                        level="WARNING"
                     )
-            elif not new_bio:
-                warning_msg = (
-                    "No bio format fits within the character limit"
-                )
-                logger.warning(warning_msg)
-                await telegram_log(
-                    warning_msg,
-                    topic_id=BIO_THREAD,
-                    level="WARNING"
-                )
+            else:
+                logger.debug(f"Same track playing, skipping bio update")
         else:
             # Not playing - restore user's original bio if bot had set one
+            last_track_id = None  # Reset track tracking
+            
             if is_bot_managed:
                 user_bio = bio_db.get_user_bio()
                 if user_bio != current_bio:
@@ -652,12 +807,27 @@ async def main():
     )
     
     await client_tg.start()  # type: ignore
+    # Capture original bio on first startup if not already saved
+    stored_user_bio = bio_db.get_user_bio()
+    if not stored_user_bio or stored_user_bio == INITIAL_BIO:
+        me = await client_tg.get_me()
+        full_user = await client_tg(GetFullUserRequest(InputUserSelf()))
+        current_bio = full_user.full_user.about or "" # type: ignore
+        # Only save if it's not already a bot-managed bio
+        if KEY not in current_bio:
+            bio_db.set_user_bio(current_bio)
+            logger.info(f"Initial bio captured: {current_bio[:50] if current_bio else '(empty)'}...")
+            await telegram_log(
+                f"Original bio saved: {current_bio[:50] if current_bio else '(empty)'}",
+                topic_id=BIO_THREAD,
+                level="INFO"
+            )
     
     # Run bio update loop
     while True:
         try:
             await update_bio()
-            await asyncio.sleep(30)  # Update every 30 seconds
+            await asyncio.sleep(10)  # Update every 10 seconds
         except KeyboardInterrupt:
             print("\n[*] Stopping Yandex Music Bio Sync...")
             await telegram_log(
