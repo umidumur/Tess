@@ -413,6 +413,8 @@ async def handle_message(event: NewMessage.Event):
         # Check if 60 seconds have passed since last trigger for this user
         current_time = time.time()
         user_id = event.sender_id
+        origin_msgid = event.message.id  # Save original message ID
+
         if user_id in last_triggered_time:
             elapsed_time = current_time - last_triggered_time[user_id]
             if elapsed_time < 60:
@@ -427,7 +429,7 @@ async def handle_message(event: NewMessage.Event):
         
         # Check for magic phrase in message
         message_text = event.message.message
-        orign_msg_id = event.message.id  # Save original message ID
+        
         if any(phrase in message_text for phrase in MAGIC_PHRASES):
             # Update last trigger time
             last_triggered_time[user_id] = current_time
@@ -508,7 +510,7 @@ async def handle_message(event: NewMessage.Event):
                     topic_id=AUTO_REPLY_THREAD,
                     level="DEBUG"
                 )
-                await send_emoji_reaction(event, orign_msg_id)
+                await send_emoji_reaction(event, origin_msgid)
                 await telegram_log(
                     "🔟 Emoji reaction successfully completed.",
                     topic_id=AUTO_REPLY_THREAD,
