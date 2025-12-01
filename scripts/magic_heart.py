@@ -201,17 +201,17 @@ async def process_hearts_carusel(event: NewMessage.Event, msgid):
         await asyncio.sleep(3)
 
 
-async def send_emoji_reaction(chat_id, msgid, emoticon='❤️'):
+async def send_emoji_reaction(event: NewMessage.Event, msgid, emoticon='❤️'):
     """Send emoji reaction to a message.
     
     Args:
-        chat_id: Chat ID to send reaction to.
+        event: Telegram NewMessage event.
         msgid: Message ID to react to.
         emoticon: Emoji to send as reaction (default: ❤️).
     """
     try:
         await client(SendReactionRequest(
-            peer=chat_id,
+            peer=event.peer_id,
             msg_id=msgid,
             reaction=[ReactionEmoji(emoticon=emoticon)]
         ))
@@ -415,25 +415,28 @@ async def handle_message(event: NewMessage.Event):
         user_id = event.sender_id
         origin_msgid = event.message.id  # Save original message ID
 
-        if user_id in last_triggered_time:
-            elapsed_time = current_time - last_triggered_time[user_id]
-            if elapsed_time < 60:
-                # If less than 60 seconds, ignore the message
-                await telegram_log(
-                    f'Ignoring abuse message from user ID '
-                    f'[{user_id}](tg://openmessage?user_id={user_id})',
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="WARNING"
-                )
-                return
         
         # Check for magic phrase in message
         message_text = event.message.message
         
         if any(phrase in message_text for phrase in MAGIC_PHRASES):
+            
+            if user_id in last_triggered_time:
+                elapsed_time = current_time - last_triggered_time[user_id]
+                if elapsed_time < 300:
+                    # If less than 5 minutes, ignore the message
+                    await telegram_log(
+                        f'Ignoring abuse message from user ID '
+                        f'[{user_id}](tg://openmessage?user_id={user_id})',
+                        topic_id=AUTO_REPLY_THREAD,
+                        level="WARNING"
+                    )
+                    return
+            
+            
             # Update last trigger time
             last_triggered_time[user_id] = current_time
-            
+
             await client.get_dialogs()
             await telegram_log(
                 f"Received magic phrase: {message_text}",
@@ -511,11 +514,11 @@ async def handle_message(event: NewMessage.Event):
                     level="DEBUG"
                 )
                 await send_emoji_reaction(event, origin_msgid)
-                await telegram_log(
-                    "🔟 Emoji reaction successfully completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
+                # await telegram_log(
+                #     "🔟 Emoji reaction successfully completed.",
+                #     topic_id=AUTO_REPLY_THREAD,
+                #     level="DEBUG"
+                # )
             # Clear user entry after all processes complete
             if user_id in last_triggered_time:
                 del last_triggered_time[user_id]
