@@ -59,6 +59,9 @@ BIO_THREAD: int = int(os.getenv("BIO_THREAD", "0"))
 DOWNLOAD_DIR = os.getenv("DOWNLOAD_DIR", "downloads")
 TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID", "")
 
+# Shared Yandex Music client instance to avoid repeated reinitialization
+yandex_music_client = None
+
 # Bio key to identify bot-managed bios
 # NEVER use this key in your original bio!
 KEY = "🎶"
@@ -228,6 +231,24 @@ def generate_device_id(length: int = 16) -> str:
     return "".join(random.choices(string.ascii_lowercase, k=length))
 
 
+async def get_yandex_music_client():
+    """Get or create a cached Yandex Music client."""
+    global yandex_music_client
+    if yandex_music_client is not None:
+        return yandex_music_client
+
+    try:
+        yandex_music_client = await ClientAsync(TOKEN).init()
+        logger.info("Yandex Music client initialized successfully.")
+        logger.debug(f"Initialized ClientAsync with token: {TOKEN[:20]}...")
+        return yandex_music_client
+    except Exception as e:
+        error_msg = f"Error initializing Yandex Music client: {e}"
+        logger.error(error_msg)
+        await telegram_log(error_msg, topic_id=YM_THREAD, level="ERROR")
+        return None
+
+
 async def create_ynison_ws(ya_token: str, ws_proto: dict) -> dict:
     """Create Ynison WebSocket connection and get redirect info.
     
@@ -267,20 +288,8 @@ async def get_current_track_info():
         Dictionary with track info (title, artists, album, duration, etc.)
         or None if no track is playing or an error occurred.
     """
-    try:
-        client = await ClientAsync(TOKEN).init()
-        logger.info("Yandex Music client initialized successfully.")
-        logger.debug(
-            f"Initialized ClientAsync with token: {TOKEN[:20]}..."
-        )
-    except Exception as e:
-        error_msg = f"Error initializing Yandex Music client: {e}"
-        logger.error(error_msg)
-        await telegram_log(
-            error_msg,
-            topic_id=YM_THREAD,
-            level="ERROR"
-        )
+    client = await get_yandex_music_client()
+    if client is None:
         return None
 
     try:
@@ -476,9 +485,11 @@ async def download_track(chat_id: int, track_url: Optional[str] = None):
             
             track_id = track_info["track_id"]
         
-        # Initialize Yandex Music client
-        client_ym = await ClientAsync(TOKEN).init()
-        
+        # Initialize shared Yandex Music client (reuses cached instance)
+        client_ym = await get_yandex_music_client()
+        if client_ym is None:
+            return None
+
         # Get track details
         track = (await client_ym.tracks([track_id]))[0]
         
