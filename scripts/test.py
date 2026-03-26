@@ -15,13 +15,16 @@ from dotenv import load_dotenv
 from telethon.events import NewMessage
 from telethon.tl.functions.messages import (
     GetStickerSetRequest,
+    SendReactionRequest,
     SetTypingRequest
 )
 from telethon.tl.types import (
     DataJSON,
     InputStickerSetAnimatedEmojiAnimations,
+    ReactionEmoji,
     SendMessageEmojiInteraction
 )
+
 
 # Ensure project root is on sys.path when running this file directly
 sys.path.insert(
@@ -52,9 +55,9 @@ async def send_emoji_interaction(
     interactions = []
     for i in range(2):
         if i == 0:
-            interactions.append({'t': 0.0, 'i': 5})
+            interactions.append({'t': 0.0, 'i': 1})
         else:
-            interactions.append({'t': 0.2, 'i': 5})
+            interactions.append({'t': 0.2, 'i': 1})
     
     interaction_json = {
         'v': 1,
@@ -76,6 +79,33 @@ async def send_emoji_interaction(
         print(f"Sent 5 taps for {emoticon}")
     except Exception as e:
         print(f"Error sending emoji interaction: {e}")
+
+
+async def send_emoji_reaction(event: NewMessage.Event, msgid, emoticon='❤️'):
+    """Send emoji reaction to a message.
+    
+    Args:
+        event: Telegram NewMessage event.
+        msgid: Message ID to react to.
+        emoticon: Emoji to send as reaction (default: ❤️).
+    """
+    try:
+        await client(SendReactionRequest(
+            peer=event.peer_id,
+            msg_id=msgid,
+            reaction=[ReactionEmoji(emoticon=emoticon)]
+        ))
+        await telegram_log(
+            f"Reaction {emoticon} sent successfully",
+            topic_id=AUTO_REPLY_THREAD,
+            level="DEBUG"
+        )
+    except Exception as e:
+        await telegram_log(
+            f"Error sending emoji reaction: {e}",
+            topic_id=AUTO_REPLY_THREAD,
+            level="ERROR"
+        )
 
 
 async def process_reply(event: NewMessage.Event):
@@ -104,7 +134,8 @@ async def handle_message(event: NewMessage.Event):
     if event.is_private:
         message_text = event.message.message
         trigger_phrases = ["test"]
-        
+        origin_msgid = event.message.id
+
         if any(phrase in message_text.lower() for phrase in trigger_phrases):
             user_id = event.sender_id
             
@@ -137,6 +168,7 @@ async def handle_message(event: NewMessage.Event):
                 for i in range(repeat_count):
                     await send_emoji_interaction(event, msgid)
                     await asyncio.sleep(0.5)
+            await send_emoji_reaction(event, origin_msgid)
 
 
 async def main():
