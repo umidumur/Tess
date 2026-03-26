@@ -77,9 +77,11 @@ async def restore_bots():
 @client.on(NewMessage())
 async def handle_track_url(event: NewMessage.Event):
     track_dt = None
-    # Yandex Music track link detection
-    if ('music.yandex.ru/track/' in event.message.text or 'music.yandex.ru/album/' in event.message.text) and event.is_private:
-        track_dt = await download_track(event.peer_id, event.message.text)
+    # Yandex Music track link detection (supports ru/com/kz/uz)
+    if event.is_private:
+        import re
+        if re.search(r"https?://(?:music\.)?yandex\.(?:ru|com|kz|uz)/(?:track|album)/", event.message.text):
+            track_dt = await download_track(event.peer_id, event.message.text)
 
     elif event.message.text.strip().startswith('/dl'):
         # Check if URL is provided after /dl command

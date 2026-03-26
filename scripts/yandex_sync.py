@@ -439,8 +439,15 @@ async def download_track(chat_id: int, track_url: Optional[str] = None):
         
         # Extract track ID from URL if provided
         if track_url:
+            from urllib.parse import urlparse
             import re
-            track_match = re.search(r'track/(\d+)', track_url)
+
+            # Strip query parameters (utm_* etc.)
+            parsed_url = urlparse(track_url)
+            clean_path = parsed_url.path
+
+            # Normalize to ensure we can parse absolutely any domain e.g. yandex.ru/.com/.kz/.uz
+            track_match = re.search(r'track/(\d+)', clean_path)
             if track_match:
                 track_id = track_match.group(1)
                 logger.info(f"Extracted track ID from URL: {track_id}")
