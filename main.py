@@ -1,5 +1,7 @@
 import subprocess
 import sys
+import json
+from pathlib import Path
 from telethon import TelegramClient
 from telethon.events import NewMessage
 from scripts.session_manager import get_client
@@ -14,14 +16,41 @@ load_dotenv()
 import os
 AUTO_REPLY_THREAD = int(os.getenv("AUTO_REPLY_THREAD", "0"))
 YM_THREAD = int(os.getenv("YM_THREAD", "0"))
+
+# Bot state persistence
+BOT_STATE_FILE = Path("bot_state.json")
 # Словарь для хранения процессов ботов
 bot_processes = {}
+
+def load_bot_state():
+    """Load which bots should be running from persistent storage"""
+    if BOT_STATE_FILE.exists():
+        try:
+            with open(BOT_STATE_FILE, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Failed to load bot state: {e}")
+    return {}
+
+def save_bot_state(state):
+    """Save bot state to persistent storage"""
+    try:
+        with open(BOT_STATE_FILE, 'w') as f:
+            json.dump(state, f, indent=2)
+    except Exception as e:
+        print(f"Failed to save bot state: {e}")
+
+# Load initial state
+bot_state = load_bot_state()
 
 async def start_bot(script_name):
     """Запускает указанный бот-скрипт в отдельном процессе"""
     if script_name not in bot_processes or bot_processes[script_name].poll() is not None:
         process = subprocess.Popen([sys.executable, script_name])
         bot_processes[script_name] = process
+        # Save to persistent state
+        bot_state[script_name] = True
+        save_bot_state(bot_state)
         print(f"{script_name} запущен")
     else:
         print(f"{script_name} уже запущен")
@@ -32,18 +61,34 @@ async def stop_bot(script_name):
         bot_processes[script_name].terminate()
         print(f"{script_name} остановлен")
         del bot_processes[script_name]
+        # Remove from persistent state
+        bot_state.pop(script_name, None)
+        save_bot_state(bot_state)
     else:
         print(f"{script_name} не запущен")
+
+async def restore_bots():
+    """Restore and start bots that were running before restart"""
+    for script_name, should_run in bot_state.items():
+        if should_run:
+            await start_bot(script_name)
+            print(f"Auto-starting {script_name}")
 
 @client.on(NewMessage())
 async def handle_track_url(event: NewMessage.Event):
     track_dt = None
     # Yandex Music track link detection
-    if 'music.yandex.ru/track/' in event.message.text or 'music.yandex.ru/album/' in event.message.text:
+    if ('music.yandex.ru/track/' in event.message.text or 'music.yandex.ru/album/' in event.message.text) and event.is_private:
         track_dt = await download_track(event.peer_id, event.message.text)
 
-    elif '/dl' == event.message.text:
-        track_dt = await download_track(event.peer_id)
+    elif event.message.text.strip().startswith('/dl'):
+        # Check if URL is provided after /dl command
+        parts = event.message.text.strip().split(None, 1)
+        if len(parts) > 1:
+            url = parts[1]
+            track_dt = await download_track(event.peer_id, url)
+        else:
+            track_dt = await download_track(event.peer_id)
    
     # Upload to Telegram
     if track_dt:
@@ -167,4 +212,8 @@ async def handle_outgoing_message(event: NewMessage.Event):
 
 if __name__ == '__main__':
     client.start()
+    # Restore bots that were running before restart
+    import asyncio
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(restore_bots())
     client.run_until_disconnected()
