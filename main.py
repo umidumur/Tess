@@ -85,9 +85,19 @@ async def handle_track_url(event: NewMessage.Event):
         message_text,
         re.IGNORECASE,
     ):
+        await telegram_log(
+            f"Yandex link detected, message_text={message_text}",
+            topic_id=YM_THREAD,
+            level='DEBUG'
+        )
         track_dt = await download_track(event.peer_id, message_text)
 
     elif message_text.startswith('/dl'):
+        await telegram_log(
+            f"/dl command received, message_text={message_text}",
+            topic_id=YM_THREAD,
+            level='DEBUG'
+        )
         # Check if URL is provided after /dl command
         parts = event.message.text.strip().split(None, 1)
         if len(parts) > 1:
