@@ -112,9 +112,12 @@ async def handle_track_url(event: NewMessage.Event):
             filepath = track_dt[0]
             track_caption = track_dt[1]
             
+            # Prefer responding to user privately, fallback to event.peer_id
+            send_target = event.sender_id if event.sender_id else event.peer_id
+
             # Отправляем сообщение с прогрессом
             progress_msg = await client.send_message(
-                event.peer_id,
+                send_target,
                 "Upload progress: 0%",
                 reply_to=event.message.id
             )
@@ -123,13 +126,17 @@ async def handle_track_url(event: NewMessage.Event):
                 if total:
                     percent = sent / total * 100
                     # Schedule the async edit without awaiting inside the callback
-                    client.loop.create_task(
-                        client.edit_message(
-                            event.peer_id,
-                            progress_msg.id,
-                            f"Upload progress: {percent:.2f}%"
-                        )
-                    )
+                    async def _try_edit():
+                        try:
+                            await client.edit_message(
+                                send_target,
+                                progress_msg.id,
+                                f"Upload progress: {percent:.2f}%"
+                            )
+                        except Exception:
+                            pass
+
+                    client.loop.create_task(_try_edit())
 
             try:
                 await client.send_file(
