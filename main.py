@@ -1,242 +1,297 @@
+#!/usr/bin/env python3
+"""Главный User Client (Telethon).
+
+Минимальный клиент, который:
+- Управляет дочерними процессами
+- Ловит входящие ссылки Яндекс Музыки в личных чатах
+- Ловит исходящие команды /dl
+- Делегирует скачивание и отправку файлов
+- Все сообщения и уведомления отправляются только через telegram_log
+"""
+
+import asyncio
+import json
+import os
+import re
 import subprocess
 import sys
-import json
 from pathlib import Path
-from telethon import TelegramClient
+from typing import Any, Dict, Optional
+
+from dotenv import load_dotenv
+from telethon import TelegramClient, events
 from telethon.events import NewMessage
+
+load_dotenv()
+
 from scripts.session_manager import get_client
 from scripts.telegram_logger import telegram_log
-from scripts.yandex_sync import download_track
-from dotenv import load_dotenv
+from scripts.uploader import upload_track
+from scripts.yandex_downloader import yandex_downloader
 
-# Инициализируем клиента для main бота
-client = get_client()
-load_dotenv()
-# Thread/topic IDs from environment (fallback to 0 if unset)
-import os
-AUTO_REPLY_THREAD = int(os.getenv("AUTO_REPLY_THREAD", "0"))
-YM_THREAD = int(os.getenv("YM_THREAD", "0"))
+# ====================== КОНСТАНТЫ ======================
+AUTO_REPLY_THREAD: int = int(os.getenv("AUTO_REPLY_THREAD", "0"))
+YM_THREAD: int = int(os.getenv("YM_THREAD", "0"))
+BIO_THREAD: int = int(os.getenv("BIO_THREAD", "0"))
 
-# Bot state persistence
-BOT_STATE_FILE = Path("bot_state.json")
-# Словарь для хранения процессов ботов
-bot_processes = {}
+BOT_STATE_FILE: Path = Path("bot_state.json")
 
-def load_bot_state():
-    """Load which bots should be running from persistent storage"""
-    if BOT_STATE_FILE.exists():
-        try:
-            with open(BOT_STATE_FILE, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Failed to load bot state: {e}")
-    return {}
+# ====================== ГЛОБАЛЬНОЕ СОСТОЯНИЕ ======================
+bot_processes: Dict[str, subprocess.Popen[Any]] = {}
+bot_state: Dict[str, bool] = {}
+client: Optional[TelegramClient] = None
 
-def save_bot_state(state):
-    """Save bot state to persistent storage"""
+
+def _load_bot_state() -> Dict[str, bool]:
+    """Загружает состояние ботов из файла."""
+    if not BOT_STATE_FILE.exists():
+        return {}
+
     try:
-        with open(BOT_STATE_FILE, 'w') as f:
-            json.dump(state, f, indent=2)
-    except Exception as e:
-        print(f"Failed to save bot state: {e}")
+        with open(BOT_STATE_FILE, encoding="utf-8") as f:
+            data: Dict[str, bool] = json.load(f)
+            return data if isinstance(data, dict) else {}
+    except Exception as e:  # pylint: disable=broad-except
+        print(f"Ошибка загрузки состояния: {e}")
+        return {}
 
-# Load initial state
-bot_state = load_bot_state()
 
-async def start_bot(script_name):
-    """Запускает указанный бот-скрипт в отдельном процессе"""
-    if script_name not in bot_processes or bot_processes[script_name].poll() is not None:
-        process = subprocess.Popen([sys.executable, script_name])
-        bot_processes[script_name] = process
-        # Save to persistent state
-        bot_state[script_name] = True
-        save_bot_state(bot_state)
-        print(f"{script_name} запущен")
-    else:
-        print(f"{script_name} уже запущен")
+def _save_bot_state(state: Dict[str, bool]) -> None:
+    """Сохраняет состояние ботов."""
+    try:
+        with open(BOT_STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2, ensure_ascii=False)
+    except Exception as e:  # pylint: disable=broad-except
+        print(f"Ошибка сохранения состояния: {e}")
 
-async def stop_bot(script_name):
-    """Останавливает указанный бот-скрипт"""
+
+async def start_bot(script_name: str) -> None:
+    """Запускает дочерний скрипт."""
+    global bot_processes, bot_state
+
     if script_name in bot_processes and bot_processes[script_name].poll() is None:
-        bot_processes[script_name].terminate()
-        print(f"{script_name} остановлен")
-        del bot_processes[script_name]
-        # Remove from persistent state
-        bot_state.pop(script_name, None)
-        save_bot_state(bot_state)
-    else:
-        print(f"{script_name} не запущен")
+        await telegram_log(f"{script_name} уже работает", level="WARNING")
+        return
 
-async def restore_bots():
-    """Restore and start bots that were running before restart"""
-    for script_name, should_run in bot_state.items():
-        if should_run:
+    try:
+        proc = subprocess.Popen(
+            [sys.executable, "-u", script_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=Path(__file__).parent,
+            text=True,
+        )
+        bot_processes[script_name] = proc
+        bot_state[script_name] = True
+        _save_bot_state(bot_state)
+
+        await telegram_log(f"{script_name} успешно запущен (PID {proc.pid})", level="INFO")
+        print(f"✅ {script_name} запущен (PID {proc.pid})")
+    except Exception as e:  # pylint: disable=broad-except
+        await telegram_log(f"Не удалось запустить {script_name}: {e}", level="ERROR")
+
+
+async def stop_bot(script_name: str) -> None:
+    """Останавливает дочерний процесс."""
+    global bot_processes, bot_state
+
+    if script_name not in bot_processes or bot_processes[script_name].poll() is not None:
+        await telegram_log(f"{script_name} не запущен", level="WARNING")
+        return
+
+    proc = bot_processes[script_name]
+    proc.terminate()
+    try:
+        proc.wait(timeout=5.0)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+
+    del bot_processes[script_name]
+    bot_state.pop(script_name, None)
+    _save_bot_state(bot_state)
+
+    await telegram_log(f"{script_name} остановлен", level="INFO")
+    print(f"🛑 {script_name} остановлен")
+
+
+async def restore_bots() -> None:
+    """Восстанавливает ранее запущенные боты."""
+    global bot_processes
+    for script_name, should_run in list(bot_state.items()):
+        if should_run and (
+            script_name not in bot_processes or bot_processes[script_name].poll() is not None
+        ):
             await start_bot(script_name)
-            print(f"Auto-starting {script_name}")
 
-@client.on(NewMessage())
-async def handle_track_url(event: NewMessage.Event):
-    track_dt = None
-    # Yandex Music track link detection (supports ru/com/kz/uz, with or without protocol)
-    import re
+
+# ====================== ОБРАБОТЧИКИ ======================
+
+
+async def handle_yandex_link(event: NewMessage.Event) -> None:
+    """Обрабатывает входящие ссылки Яндекс Музыки в личных чатах."""
+    if not event.is_private:
+        return
+
     message_text = (event.message.text or "").strip()
-    if re.search(
+
+    if not re.search(
         r"(?:https?://)?(?:music\.)?yandex\.(?:ru|com|kz|uz)/(?:track|album)/",
         message_text,
         re.IGNORECASE,
     ):
-        await telegram_log(
-            f"Yandex link detected, message_text={message_text}",
-            topic_id=YM_THREAD,
-            level='DEBUG'
-        )
-        track_dt = await download_track(event.peer_id, message_text)
+        return
 
-    elif message_text.startswith('/dl'):
-        await telegram_log(
-            f"/dl command received, message_text={message_text}",
-            topic_id=YM_THREAD,
-            level='DEBUG'
-        )
-        # Check if URL is provided after /dl command
-        parts = event.message.text.strip().split(None, 1)
-        if len(parts) > 1:
-            url = parts[1]
-            track_dt = await download_track(event.peer_id, url)
+    await telegram_log(
+        f"Получена ссылка ЯМ в личке: {message_text}", topic_id=YM_THREAD, level="INFO"
+    )
+
+    result = await yandex_downloader.download_track(message_text)
+    if not result:
+        await telegram_log("Не удалось скачать трек по ссылке", level="ERROR")
+        return
+
+    filepath, caption = result
+
+    success = await upload_track(
+        client=client,  # type: ignore
+        filepath=filepath,
+        caption=caption,
+        chat_id=event.chat_id,
+        reply_to=event.message.id,
+    )
+
+    if success:
+        await telegram_log("Трек успешно скачан и отправлен пользователю", level="INFO")
+    else:
+        await telegram_log("Ошибка при отправке трека пользователю", level="ERROR")
+
+
+async def handle_dl_command(event: NewMessage.Event) -> None:
+    """Обрабатывает исходящую команду /dl."""
+    text = event.message.text.strip()
+    if not text.startswith("/dl"):
+        return
+
+    parts = text.split(maxsplit=1)
+    identifier = parts[1] if len(parts) > 1 else None
+
+    await telegram_log(f"Получена команда /dl: {identifier or 'текущий трек'}", level="INFO")
+
+    if not identifier:
+        from scripts.yandex_ynison import get_current_track_info
+
+        track_info = await get_current_track_info()
+        if track_info and track_info.get("is_playing"):
+            identifier = track_info["track_id"]
         else:
-            track_dt = await download_track(event.peer_id)
-   
-    # Upload to Telegram
-    if track_dt:
-        try:
-            filepath = track_dt[0]
-            track_caption = track_dt[1]
-            
-            # Prefer responding to user privately, fallback to event.peer_id
-            send_target = event.sender_id if event.sender_id else event.peer_id
+            await telegram_log("Команда /dl без ссылки и ничего не играет", level="WARNING")
+            return
 
-            # Отправляем сообщение с прогрессом
-            progress_msg = await client.send_message(
-                send_target,
-                "Upload progress: 0%",
-                reply_to=event.message.id
-            )
+    result = await yandex_downloader.download_track(identifier)
+    if not result:
+        await telegram_log("Не удалось скачать трек по команде /dl", level="ERROR")
+        return
 
-            def _progress(sent: int, total: int) -> None:
-                if total:
-                    percent = sent / total * 100
-                    # Schedule the async edit without awaiting inside the callback
-                    async def _try_edit():
-                        try:
-                            await client.edit_message(
-                                send_target,
-                                progress_msg.id,
-                                f"Upload progress: {percent:.2f}%"
-                            )
-                        except Exception:
-                            pass
+    filepath, caption = result
 
-                    client.loop.create_task(_try_edit())
+    success = await upload_track(
+        client=client,  # type: ignore
+        filepath=filepath,
+        caption=caption,
+        chat_id=event.chat_id,
+        reply_to=event.message.id,
+    )
 
-            try:
-                await client.send_file(
-                    event.peer_id,
-                    filepath,
-                    caption=track_caption,
-                    progress_callback=_progress,
-                    force_document=False,
-                    reply_to=event.message.id,
-                    message_effect_id=5159385139981059251
-                )
-            finally:
-                # Удаляем сообщение с прогрессом после завершения
-                await client.delete_messages(event.peer_id, [progress_msg.id])
-            
-            # Delete file after successful upload
-            import os
-            try:
-                os.remove(filepath)
-                print(f"Deleted file: {filepath}")
-            except Exception as e:
-                print(f"Failed to delete file: {e}")
+    if success:
+        await telegram_log("Трек по команде /dl успешно отправлен", level="INFO")
+    else:
+        await telegram_log("Ошибка отправки трека по команде /dl", level="ERROR")
 
-        except Exception as e:
-            print(f"Error uploading to Telegram: {e}")
 
-@client.on(NewMessage(outgoing=True))
-async def handle_outgoing_message(event: NewMessage.Event):
-    if event.is_private:  # Только личные сообщения
-        message_text = event.message.text.lower()
-        
-        # Help command
-        if message_text == '/help':
-            help_text = """**Available Commands:**
-    • `/dl` - Download last listened track on Yandex Music
-    • You can also send Yandex Music track or album links directly.
+async def handle_commands(event: NewMessage.Event) -> None:
+    """Обработка управляющих команд (только исходящие)."""
 
-**Start:**
-    • `/start_auto_reply` - Start magic heart bot
-    • `/start_ym_sync` - Start Yandex Music sync
-    • `/start_all` - Start all bots
+    text = event.message.text.lower().strip()
 
-**Stop:**
-    • `/stop_auto_reply` - Stop magic heart bot
-    • `/stop_ym_sync` - Stop Yandex Music sync
-    • `/stop_all` - Stop all bots
+    if text == "/help":
+        help_text = """**Доступные команды:**
 
-**Info:**
-    • `/status` - Show running bots status
-    • `/help` - Show this help message"""
-            await event.reply(help_text)
-        
-        # Status command
-        elif message_text == '/status':
-            if not bot_processes:
-                await event.reply('No bots are currently running')
-            else:
-                status_lines = ['**Running Bots:**']
-                for name, process in bot_processes.items():
-                    if process.poll() is None:
-                        status_lines.append(f'✅ {name} - Running')
-                    else:
-                        status_lines.append(f'❌ {name} - Stopped')
-                await event.reply('\n'.join(status_lines))
-        
-        # Start commands
-        elif message_text == '/start_auto_reply':
-            await start_bot('scripts/magic_heart.py')
-            await event.reply('Magic heart started')
-        elif message_text == '/start_ym_sync':
-            await start_bot('scripts/yandex_sync.py')
-            await event.reply('Yandex sync started')
-        elif message_text == '/start_all':
-            await start_bot('scripts/magic_heart.py')
-            await start_bot('scripts/yandex_sync.py')
-            await event.reply('All bots started')
-        
-        # Stop commands
-        elif message_text == '/stop_auto_reply':
-            await stop_bot('scripts/magic_heart.py')
-            await event.reply('Magic heart stopped')
-            await telegram_log('Magic heart bot stopped by user', topic_id=AUTO_REPLY_THREAD, level='INFO')
-        elif message_text == '/stop_ym_sync':
-            await stop_bot('scripts/yandex_sync.py')
-            await event.reply('Yandex sync stopped')
-            await telegram_log('Yandex sync bot stopped by user', topic_id=YM_THREAD, level='INFO')
-        
-        # Stop all
-        elif message_text == '/stop_all':
-            for name, process in bot_processes.items():
-                if process.poll() is None:
-                    process.terminate()
-                    print(f"{name} stopped")
-            bot_processes.clear()
-            await event.reply('All bots stopped')
+**Скачивание:**
+• `/dl` — скачать текущий трек
+• `/dl <ссылка>` — скачать по ссылке
 
-if __name__ == '__main__':
-    client.start()
-    # Restore bots that were running before restart
-    import asyncio
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(restore_bots())
-    client.run_until_disconnected()
+**Управление:**
+• `/start_ym_sync` — запустить обновление био
+• `/start_magic` — запустить Magic Heart
+• `/start_all` — запустить всё
+• `/stop_ym_sync` — остановить био
+• `/stop_magic` — остановить Magic Heart
+• `/stop_all` — остановить всё
+
+**Статус:** `/status`
+**Помощь:** `/help`"""
+        await event.reply(help_text)
+        return
+
+    if text == "/status":
+        if not bot_processes:
+            await event.reply("Сейчас ничего не запущено")
+            return
+
+        lines = ["**Статус ботов:**"]
+        for name, proc in bot_processes.items():
+            code = proc.poll()
+            status = "Работает" if code is None else f"Остановлен (код {code})"
+            lines.append(f"• {name}: {status}")
+        await event.reply("\n".join(lines))
+        return
+
+    # Запуск
+    if text == "/start_ym_sync":
+        await start_bot("scripts/yandex_sync.py")
+    elif text == "/start_magic" or text == "/start_auto_reply":
+        await start_bot("scripts/magic_heart.py")
+    elif text == "/start_all":
+        await start_bot("scripts/yandex_sync.py")
+        await start_bot("scripts/magic_heart.py")
+
+    # Остановка
+    elif text == "/stop_ym_sync":
+        await stop_bot("scripts/yandex_sync.py")
+    elif text == "/stop_magic" or text == "/stop_auto_reply":
+        await stop_bot("scripts/magic_heart.py")
+    elif text == "/stop_all":
+        for name in list(bot_processes.keys()):
+            await stop_bot(name)
+        _save_bot_state({})
+
+
+# ====================== ЗАПУСК ======================
+async def main() -> None:
+    """Главная функция."""
+    global client, bot_state
+
+    bot_state = _load_bot_state()
+
+    try:
+        client = get_client()
+    except Exception as e:  # pylint: disable=broad-except
+        await telegram_log(f"Не удалось создать TelegramClient: {e}", level="ERROR")
+        sys.exit(1)
+
+    # Регистрация обработчиков
+    client.add_event_handler(handle_yandex_link, events.NewMessage(incoming=True))
+    client.add_event_handler(handle_dl_command, events.NewMessage(outgoing=True))
+    client.add_event_handler(handle_commands, events.NewMessage(outgoing=True))
+
+    await client.start()
+    await telegram_log("Главный User Client успешно запущен", level="INFO")
+    print("✅ Главный User Client запущен")
+
+    await restore_bots()
+
+    await client.run_until_disconnected()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

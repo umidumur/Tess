@@ -1,7 +1,8 @@
-"""Magic heart animation script for Telegram.
+#!/usr/bin/env python3
+"""Magic Heart — автоответчик с анимацией сердец.
 
-This module sends animated heart sequences in response to magic trigger
-phrases in private messages. It includes cooldown protection to prevent abuse.
+Реагирует на ключевые фразы, заданные в .env файле (MAGIC_PHRASES).
+Полностью независимый скрипт.
 """
 
 import asyncio
@@ -10,47 +11,49 @@ import os
 import sys
 import time
 from random import choice
+from typing import Optional
 
 from dotenv import load_dotenv
+from telethon import TelegramClient
 from telethon.events import NewMessage
-from telethon.tl.functions.messages import (
-    SendReactionRequest,
-    SetTypingRequest
-)
-from telethon.tl.types import (
-    DataJSON,
-    ReactionEmoji,
-    SendMessageEmojiInteraction
-)
-
-# Ensure project root is on sys.path when running this file directly so
-# `from scripts.*` imports work regardless of how the script is executed.
-sys.path.insert(
-    0,
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
-
-from scripts.session_manager import get_client
-from scripts.telegram_logger import telegram_log, validate_bot_config
+from telethon.tl.functions.messages import SendReactionRequest, SetTypingRequest
+from telethon.tl.types import DataJSON, ReactionEmoji, SendMessageEmojiInteraction
 
 load_dotenv()
 
-# Constants
-HEART = '🤍'
-HEARTS = [
-    '🤎', '🧡', '💙', '🖤', '💛', '💜', '❤️‍🔥',
-    '💚', '❤️‍🩹', '💖', '❤'
+# ====================== ИМПОРТЫ ======================
+from scripts.session_manager import get_client
+from scripts.telegram_logger import telegram_log, validate_bot_config
+
+# ====================== КОНФИГУРАЦИЯ ИЗ .env ======================
+AUTO_REPLY_THREAD: int = int(os.getenv("AUTO_REPLY_THREAD", "0"))
+
+# Ключевые фразы — теперь берутся из .env
+# Пример в .env: MAGIC_PHRASES=magic,ily,люблю,heart,сердце
+MAGIC_PHRASES_RAW = os.getenv("MAGIC_PHRASES", "magic,ily")
+MAGIC_PHRASES: list[str] = [
+    phrase.strip().lower() for phrase in MAGIC_PHRASES_RAW.split(",") if phrase.strip()
 ]
-COLORED_HEARTS = ['❤', '💚', '💙', '💜', '❤️‍🩹', '❤️‍🔥', '💖', '💝']
-ANIMATED_HEARTS = [
-    '🩷', '🧡', '💚', '💛', '🩵', '💜', '💙', '🤎', '🤍', '❤️'
-]
-MAGIC_PHRASES = ['magic', 'ily']
+
+# Если в .env ничего не указано — используем дефолтные
+if not MAGIC_PHRASES:
+    MAGIC_PHRASES = ["magic", "ily"]
+
+COOLDOWN_SECONDS: int = int(os.getenv("MAGIC_COOLDOWN", "300"))  # 5 минут по умолчанию
+
+# ====================== КОНСТАНТЫ АНИМАЦИИ ======================
+HEART = "🤍"
+
+HEARTS = ["🤎", "🧡", "💙", "🖤", "💛", "💜", "❤️‍🔥", "💚", "❤️‍🩹", "💖", "❤"]
+
+COLORED_HEARTS = ["❤", "💚", "💙", "💜", "❤️‍🩹", "❤️‍🔥", "💖", "💝"]
+
+ANIMATED_HEARTS = ["🩷", "🧡", "💚", "💛", "🩵", "💜", "💙", "🤎", "🤍", "❤️"]
+
 EDIT_DELAY = 0.20
 
-AUTO_REPLY_THREAD = int(os.getenv("AUTO_REPLY_THREAD", "0"))
-
-PARADE_MAP = '''
+# ====================== ASCII-КАРТЫ ======================
+PARADE_MAP = """
 000000000
 001101100
 011111110
@@ -60,11 +63,10 @@ PARADE_MAP = '''
 000111000
 000010000
 000000000
-'''
+"""
 
-# END_MAP for the end animation (define maps)
 END_MAP = [
-'''
+    """
 000000000
 001101100
 010010010
@@ -74,8 +76,8 @@ END_MAP = [
 000101000
 000010000
 000000000
-''',
-'''
+""",
+    """
 111111111
 110010011
 101101101
@@ -85,497 +87,272 @@ END_MAP = [
 111010111
 111101111
 111111111
-'''
+""",
 ]
 
+# ====================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ======================
+client: TelegramClient = get_client()
+last_triggered_time: dict = {}
 
-client = get_client("MagicHeart")
 
-
-def generate_parade_colored():
-    """Generate colored heart parade grid.
-    
-    Returns:
-        String containing grid of randomly colored hearts.
-    """
-    output = ''
+def generate_parade_colored() -> str:
+    """Генерирует парад случайно окрашенных сердец."""
+    output = ""
     for c in PARADE_MAP:
-        if c == '0':
+        if c == "0":
             output += HEART
-        elif c == '1':
+        elif c == "1":
             output += choice(COLORED_HEARTS)
         else:
             output += c
     return output
 
 
-def generate_parade_hearts(num):
-    """Generate heart parade grid with specific heart type.
-    
-    Args:
-        num: Index of heart type from HEARTS list.
-        
-    Returns:
-        String containing grid with specified heart type.
-    """
-    output = ''
+def generate_parade_hearts(num: int) -> str:
+    """Генерирует парад с конкретным типом сердца."""
+    output = ""
     for c in PARADE_MAP:
-        if c == '0':
+        if c == "0":
             output += HEART
-        elif c == '1':
+        elif c == "1":
             output += HEARTS[num]
         else:
             output += c
     return output
 
 
-def generate_end(num1, num2):
-    """Generate end animation grid.
-    
-    Args:
-        num1: Index of END_MAP to use.
-        num2: Index of heart type from HEARTS list.
-        
-    Returns:
-        String containing grid for end animation.
-    """
-    output = ''
+def generate_end(num1: int, num2: int) -> str:
+    """Генерирует финальную анимацию."""
+    output = ""
     for c in END_MAP[num1]:
-        if c == '0':
+        if c == "0":
             output += HEART
-        elif c == '1':
+        elif c == "1":
             output += HEARTS[num2]
         else:
             output += c
     return output
 
 
-async def process_love_words(event: NewMessage.Event, msgid):
-    """Animate 'I love you' text message.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
-    await client.edit_message(event.peer_id.user_id, msgid, 'i')
-    await asyncio.sleep(1/2)
-    await client.edit_message(
-        event.peer_id.user_id,
-        msgid,
-        'i love'
-    )
-    await asyncio.sleep(1/2)
-    await client.edit_message(
-        event.peer_id.user_id,
-        msgid,
-        'i love you'
-    )
-    await asyncio.sleep(1/2)
-    await client.edit_message(
-        event.peer_id.user_id,
-        msgid,
-        'i love you forever'
-    )
-    await asyncio.sleep(1/2)
-    await client.edit_message(
-        event.peer_id.user_id,
-        msgid,
-        'i love you forever❤️‍🩹'
-    )
-    await asyncio.sleep(2)
+# ====================== АНИМАЦИИ ======================
+async def process_love_words(event: NewMessage.Event, msgid: int):
+    """Анимация текста 'i love you forever'."""
+    peer = event.peer_id.user_id
+    await client.edit_message(peer, msgid, "i")
+    await asyncio.sleep(0.5)
+    await client.edit_message(peer, msgid, "i love")
+    await asyncio.sleep(0.5)
+    await client.edit_message(peer, msgid, "i love you")
+    await asyncio.sleep(0.5)
+    await client.edit_message(peer, msgid, "i love you forever")
+    await asyncio.sleep(0.5)
+    await client.edit_message(peer, msgid, "i love you forever ❤️‍🩹")
 
 
-async def process_hearts_carusel(event: NewMessage.Event, msgid):
-    """Animate cycling through animated hearts.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
-    for i in range(0, ANIMATED_HEARTS.__len__(), 1):
-        await client.edit_message(
-            event.peer_id.user_id,
-            msgid,
-            ANIMATED_HEARTS[i]
-        )
+async def process_hearts_carusel(event: NewMessage.Event, msgid: int):
+    """Карусель анимированных сердец."""
+    peer = event.peer_id.user_id
+    for heart in ANIMATED_HEARTS:
+        await client.edit_message(peer, msgid, heart)
         await asyncio.sleep(3)
 
 
-async def send_emoji_reaction(event: NewMessage.Event, msgid, emoticon='❤️'):
-    """Send emoji reaction to a message.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to react to.
-        emoticon: Emoji to send as reaction (default: ❤️).
-    """
+async def send_emoji_reaction(event: NewMessage.Event, msgid: int, emoticon: str = "❤️"):
+    """Отправка реакции."""
     try:
-        await client(SendReactionRequest(
-            peer=event.peer_id,
-            msg_id=msgid,
-            reaction=[ReactionEmoji(emoticon=emoticon)]
-        ))
-        await telegram_log(
-            f"Reaction {emoticon} sent successfully",
-            topic_id=AUTO_REPLY_THREAD,
-            level="DEBUG"
-        )
-    except Exception as e:
-        await telegram_log(
-            f"Error sending emoji reaction: {e}",
-            topic_id=AUTO_REPLY_THREAD,
-            level="ERROR"
-        )
-
-
-async def send_emoji_interaction(event: NewMessage.Event, msgid,
-                                 emoticon='❤️'):
-    """Send emoji interaction to a message.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to interact with.
-        emoticon: Emoji to send as interaction (default: ❤️).
-    """
-    interactions = []
-    # Adjust the number of taps here (more than 2 may not register)
-    for i in range(2):
-        if i == 0:
-            interactions.append({'t': 0.0, 'i': 5})
-        else:
-            interactions.append({'t': 0.2, 'i': 5})
-    interaction_json = {
-        'v': 1,
-        'a': interactions
-    }
-
-    try:
-        await client(SetTypingRequest(
-            peer=event.peer_id,
-            top_msg_id=msgid,
-            action=SendMessageEmojiInteraction(
-                emoticon=emoticon,
-                msg_id=msgid,
-                interaction=DataJSON(data=json.dumps(interaction_json))
+        await client(
+            SendReactionRequest(
+                peer=event.peer_id, msg_id=msgid, reaction=[ReactionEmoji(emoticon=emoticon)]
             )
-        ))
-    except Exception as e:
+        )
+    except Exception as e:  # pylint: disable=broad-except
         await telegram_log(
-            f"Error sending emoji interaction: {e}",
-            topic_id=AUTO_REPLY_THREAD,
-            level="ERROR"
+            f"Ошибка реакции: {e}", topic_id=AUTO_REPLY_THREAD, level="ERROR"
         )
 
 
-async def process_build_place(event: NewMessage.Event, msgid):
-    """Build heart grid animation.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
+async def send_emoji_interaction(event: NewMessage.Event, msgid: int, emoticon: str = "❤️"):
+    """Отправка взаимодействия (тап по эмодзи)."""
+    try:
+        interaction_json = {"v": 1, "a": [{"t": 0.0, "i": 5}, {"t": 0.2, "i": 5}]}
+        await client(
+            SetTypingRequest(
+                peer=event.peer_id,
+                top_msg_id=msgid,
+                action=SendMessageEmojiInteraction(
+                    emoticon=emoticon,
+                    msg_id=msgid,
+                    interaction=DataJSON(data=json.dumps(interaction_json)),
+                ),
+            )
+        )
+    except Exception:  # pylint: disable=broad-except
+        pass  # тихо игнорируем
+
+
+async def process_build_place(event: NewMessage.Event, msgid: int):
+    """Построение сердца из строк."""
+    peer = event.peer_id.user_id
     output = HEART
-    for i in range(8):
+    for _ in range(8):
         output += HEART
-        await client.edit_message(event.peer_id.user_id, msgid, output)
+        await client.edit_message(peer, msgid, output)
         await asyncio.sleep(EDIT_DELAY)
-    for i in range(8):
-        output += '\n'
-        output += 9*HEART
-        await client.edit_message(event.peer_id.user_id, msgid, output)
+
+    for _ in range(8):
+        output += "\n" + (9 * HEART)
+        await client.edit_message(peer, msgid, output)
         await asyncio.sleep(EDIT_DELAY)
 
 
-async def process_colored_heart(event: NewMessage.Event, msgid):
-    """Animate colored heart grid.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
-    output = ''
+async def process_colored_heart(event: NewMessage.Event, msgid: int):
+    """Цветное сердце."""
+    peer = event.peer_id.user_id
     for i in range(11):
         text = generate_parade_hearts(i)
-        await client.edit_message(event.peer_id.user_id, msgid, text)
+        await client.edit_message(peer, msgid, text)
         await asyncio.sleep(EDIT_DELAY)
 
 
-async def process_preend(event: NewMessage.Event, msgid):
-    """Show final heart grid before end animation.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
-    output = ''
-    text = generate_parade_hearts(10)
-    await client.edit_message(event.peer_id.user_id, msgid, text)
-    await asyncio.sleep(EDIT_DELAY)
-
-
-async def process_colored_parade(event: NewMessage.Event, msgid):
-    """Animate randomly colored heart parade.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
-    for i in range(15):
+async def process_colored_parade(event: NewMessage.Event, msgid: int):
+    """Случайно окрашенный парад сердец."""
+    peer = event.peer_id.user_id
+    for _ in range(15):
         text = generate_parade_colored()
-        await client.edit_message(event.peer_id.user_id, msgid, text)
-        await asyncio.sleep(2*EDIT_DELAY)
+        await client.edit_message(peer, msgid, text)
+        await asyncio.sleep(2 * EDIT_DELAY)
 
 
-async def process_end(event: NewMessage.Event, msgid):
-    """Animate end sequence.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
+async def process_end(event: NewMessage.Event, msgid: int):
+    """Финальная анимация."""
+    peer = event.peer_id.user_id
     for i in range(11):
         for c in range(2):
             text = generate_end(c, i)
-            await client.edit_message(event.peer_id.user_id, msgid, text)
+            await client.edit_message(peer, msgid, text)
             await asyncio.sleep(EDIT_DELAY)
 
 
-async def process_destroy_place(event: NewMessage.Event, msgid):
-    """Destroy heart grid animation by removing rows and columns.
-    
-    Args:
-        event: Telegram NewMessage event.
-        msgid: Message ID to edit.
-    """
+async def process_destroy_place(event: NewMessage.Event, msgid: int):
+    """Разрушение сердца (анимация исчезновения)."""
     try:
         messages = await client.get_messages(event.chat_id, limit=1)
-        if messages:
-            msg = messages if not isinstance(messages, list) else messages[0]
-            output = msg.message or ""
-            if output:
-                arr = output.split('\n')
-                while len(arr) > 0:
-                    # Remove first row
-                    if arr:
-                        arr.pop(0)
-                    
-                    # Remove last character from each remaining row
-                    for i in range(len(arr)):
-                        if arr[i]:  # Check that string is not empty
-                            arr[i] = arr[i][:-1]
-                    
-                    # Update message
-                    temp = '\n'.join(arr)
-                    await client.edit_message(
-                        event.peer_id.user_id,
-                        msgid,
-                        temp
-                    )
-                    await asyncio.sleep(EDIT_DELAY)
-                
-    except Exception as e:
-        print(f"Error in process_destroy_place: {e}")
+        if not messages:
+            return
+        msg = messages[0] if isinstance(messages, list) else messages
+        output = msg.message or ""
+
+        if not output:
+            return
+
+        arr = output.split("\n")
+        while arr:
+            if arr:
+                arr.pop(0)
+            for i in range(len(arr)):
+                if arr[i]:
+                    arr[i] = arr[i][:-1]
+
+            await client.edit_message(event.peer_id.user_id, msgid, "\n".join(arr))
+            await asyncio.sleep(EDIT_DELAY)
+    except Exception as e:  # pylint: disable=broad-except
+        print(f"Ошибка в process_destroy_place: {e}")
 
 
-async def process_reply(event: NewMessage.Event):
-    """Send initial heart message and get its ID.
-    
-    Args:
-        event: Telegram NewMessage event.
-        
-    Returns:
-        Message ID of sent message, or None if failed.
-    """
+async def process_reply(event: NewMessage.Event) -> Optional[int]:
+    """Отправляет начальное сердце и возвращает его ID."""
     await client.send_message(event.peer_id.user_id, message=HEART, reply_to=event.message.id)
     messages = await client.get_messages(event.chat_id, limit=1)
     if messages:
-        msg = messages if not isinstance(messages, list) else messages[0]
-        msgid = msg.id
-        return msgid
+        msg = messages[0] if isinstance(messages, list) else messages
+        return msg.id
     return None
 
 
-# Global dictionary to store last trigger time for each user
-last_triggered_time = {}
-
+# ====================== ОСНОВНОЙ ХЕНДЛЕР ======================
 @client.on(NewMessage(incoming=True))
-async def handle_message(event: NewMessage.Event):
-    """Handle incoming messages for magic phrases.
-    
-    Checks for trigger phrases in private messages and executes the magic
-    heart animation sequence with 60-second cooldown per sender to prevent
-    abuse.
-    
-    Args:
-        event: Telegram NewMessage event.
-    """
-    if event.is_private:
-        # Check if 60 seconds have passed since last trigger for this user
-        current_time = time.time()
-        user_id = event.sender_id
-        origin_msgid = event.message.id  # Save original message ID
+async def handle_magic_heart(event: NewMessage.Event):
+    """Основной обработчик магических фраз."""
+    if not event.is_private:
+        return
 
-        
-        # Check for magic phrase in message
-        message_text = event.message.message
-        
-        if any(phrase in message_text for phrase in MAGIC_PHRASES):
-            
-            if user_id in last_triggered_time:
-                elapsed_time = current_time - last_triggered_time[user_id]
-                if elapsed_time < 300:
-                    # If less than 5 minutes, ignore the message
-                    await telegram_log(
-                        f'Ignoring abuse message from user ID '
-                        f'[{user_id}](tg://openmessage?user_id={user_id})',
-                        topic_id=AUTO_REPLY_THREAD,
-                        level="WARNING"
-                    )
-                    return
-            
-            
-            # Update last trigger time
-            last_triggered_time[user_id] = current_time
+    message_text = (event.message.message or "").lower().strip()
+    user_id = event.sender_id
+    current_time = time.time()
 
-            await client.get_dialogs()
+    # Проверяем наличие любой ключевой фразы
+    if not any(phrase in message_text for phrase in MAGIC_PHRASES):
+        return
+
+    # Cooldown защита
+    if user_id in last_triggered_time:
+        elapsed = current_time - last_triggered_time[user_id]
+        if elapsed < COOLDOWN_SECONDS:
             await telegram_log(
-                f"Received magic phrase: {message_text}",
+                f"Игнорируем спам от пользователя {user_id} (cooldown)",
                 topic_id=AUTO_REPLY_THREAD,
-                level="INFO"
+                level="WARNING",
             )
-            await telegram_log(
-                f'Triggering magic heart for user ID '
-                f'[{user_id}](tg://openmessage?user_id={user_id})',
-                topic_id=AUTO_REPLY_THREAD,
-                level="INFO"
-            )
-            msgid = await process_reply(event)
-            if msgid:
-                await process_build_place(event, msgid)
-                await telegram_log(
-                    "1️⃣ Phase process\\_build\\_place successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_colored_heart(event, msgid)
-                await telegram_log(
-                    "2️⃣ Phase process\\_colored\\_heart successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_colored_parade(event, msgid)
-                await telegram_log(
-                    "3️⃣ Phase process\\_colored\\_parade successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_preend(event, msgid)
-                await telegram_log(
-                    "4️⃣ Phase process\\_preend successfully completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_end(event, msgid)
-                await telegram_log(
-                    "5️⃣ Phase process\\_end successfully completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_destroy_place(event, msgid)
-                await telegram_log(
-                    "6️⃣ Phase process\\_destroy\\_place successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_love_words(event, msgid)
-                await telegram_log(
-                    "7️⃣ Phase process\\_love\\_words successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await process_hearts_carusel(event, msgid)
-                await telegram_log(
-                    "8️⃣ Phase process\\_hearts\\_carusel successfully "
-                    "completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                for i in range(50):
-                    await send_emoji_interaction(event, msgid)
-                    await asyncio.sleep(0.5)
-                await telegram_log(
-                    "9️⃣ Emoji interaction successfully completed.",
-                    topic_id=AUTO_REPLY_THREAD,
-                    level="DEBUG"
-                )
-                await send_emoji_reaction(event, origin_msgid)
-                # await telegram_log(
-                #     "🔟 Emoji reaction successfully completed.",
-                #     topic_id=AUTO_REPLY_THREAD,
-                #     level="DEBUG"
-                # )
-            # Clear user entry after all processes complete
-            if user_id in last_triggered_time:
-                del last_triggered_time[user_id]
-            
-            await telegram_log(
-                f'✅ Completed magic heart sequence for user ID '
-                f'[{user_id}](tg://openmessage?user_id={user_id})',
-                topic_id=AUTO_REPLY_THREAD,
-                level="INFO"
-            )
+            return
+
+    last_triggered_time[user_id] = current_time
+
+    await telegram_log(
+        f"Запущена магия сердец для пользователя {user_id} по фразе: {message_text}",
+        topic_id=AUTO_REPLY_THREAD,
+        level="INFO",
+    )
+
+    msgid = await process_reply(event)
+    if not msgid:
+        return
+
+    # Последовательность анимаций
+    try:
+        await process_build_place(event, msgid)
+        await process_colored_heart(event, msgid)
+        await process_colored_parade(event, msgid)
+        await process_end(event, msgid)
+        await process_destroy_place(event, msgid)
+        await process_love_words(event, msgid)
+        await process_hearts_carusel(event, msgid)
+
+        # Финальные взаимодействия
+        for _ in range(50):
+            await send_emoji_interaction(event, msgid)
+            await asyncio.sleep(0.5)
+
+        await send_emoji_reaction(event, event.message.id)
+
+        await telegram_log(
+            f"✅ Анимация сердец успешно завершена для пользователя {user_id}",
+            topic_id=AUTO_REPLY_THREAD,
+            level="INFO",
+        )
+
+    except Exception as e:  # pylint: disable=broad-except
+        await telegram_log(
+            f"Ошибка во время анимации: {e}", topic_id=AUTO_REPLY_THREAD, level="ERROR"
+        )
+    finally:
+        # Очищаем cooldown после завершения
+        if user_id in last_triggered_time:
+            del last_triggered_time[user_id]
 
 
 async def main():
-    """Start magic heart auto-reply bot."""
-    print('[*] Magic Heart Auto-Reply is running... Press Ctrl+C to stop.')
-    await telegram_log(
-        "Magic Heart Auto-Reply started",
-        topic_id=AUTO_REPLY_THREAD,
-        level="INFO"
-    )
-    await client.start()  # type: ignore
-    await client.run_until_disconnected()  # type: ignore
+    """Запуск Magic Heart."""
+    print("[*] Magic Heart Auto-Reply запущен... Ctrl+C для остановки.")
+
+    await telegram_log("Magic Heart Auto-Reply started", topic_id=AUTO_REPLY_THREAD, level="INFO")
+
+    await client.start()
+    await client.run_until_disconnected()
 
 
-if __name__ == '__main__':
-    # Fail fast if bot configuration is missing
+if __name__ == "__main__":
     if not validate_bot_config(require_chat=True):
-        print("Missing BOT_TOKEN or TELEGRAM_CHAT_ID. Aborting.")
+        print("❌ Отсутствует BOT_TOKEN или TELEGRAM_CHAT_ID")
         sys.exit(1)
 
     asyncio.run(main())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

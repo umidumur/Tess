@@ -1,538 +1,636 @@
 {
   "player_state": {
     "status": {
-      "progress_ms": "120635",
-      "duration_ms": "191635",
-      "paused": true,
+      "progress_ms": "111195",
+      "duration_ms": "171148",
+      "paused": false,
       "playback_speed": 1.0,
       "version": {
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-        "version": "2877885555136556981",
-        "timestamp_ms": "1764446654147"
+        "version": "2523799147361836063",
+        "timestamp_ms": "1774826850626"
       }
     },
     "player_queue": {
       "entity_id": "user:onyourwave",
       "entity_type": "RADIO",
-      "current_playable_index": 35,
+      "current_playable_index": 42,
       "playable_list": [
         {
-          "playable_id": "144953889",
-          "album_id_optional": "39094637",
+          "playable_id": "148377312",
+          "album_id_optional": "40735063",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Заново",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/16508792/7ce0b3f7.a.39094637-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Прайм",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/17649213/56158fbc.a.40735063-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "9415bda1-8a31-423f-ac68-8630f4e1cf3a.6DLm"
+            "batch_id_optional": "d2c16318-9f4a-4a2a-aa24-a454fd18fd67.q1WK"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144446415",
-          "album_id_optional": "38864614",
+          "playable_id": "136145395",
+          "album_id_optional": "35411770",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Птицы",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/14270105/0a759528.a.38864614-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "День ночь",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/14707562/6f15296e.a.35411770-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "9415bda1-8a31-423f-ac68-8630f4e1cf3a.6DLm"
+            "batch_id_optional": "d2c16318-9f4a-4a2a-aa24-a454fd18fd67.q1WK"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144524727",
-          "album_id_optional": "38900113",
+          "playable_id": "137595469",
+          "album_id_optional": "35979728",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Добегу",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/14651289/aed2f14d.a.38900113-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Ma Meilleure Ennemie ft. Coldplay",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15042045/3b8332e6.a.35979728-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "94598982-61b0-4c87-9654-4f6e278186f6.rIMN"
+            "batch_id_optional": "5ba5f706-c4f6-4b0a-bbb3-22c481064953.9t9O"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "45704926",
-          "album_id_optional": "29651377",
+          "playable_id": "52355092",
+          "album_id_optional": "7367539",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Dirty Talk",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/9868087/98b13bb6.a.29651377-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "no escape!",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/113160/b8e7383e.a.7367539-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "c850b0bc-fa1a-42d3-adf3-dbf585524fc0.7pdA"
+            "batch_id_optional": "5ba5f706-c4f6-4b0a-bbb3-22c481064953.9t9O"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "119048357",
-          "album_id_optional": "28118837",
+          "playable_id": "142287318",
+          "album_id_optional": "37963624",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Adios Amigos",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/10641165/1e8655cb.a.28118837-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "pump it",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15142616/8cb8bfde.a.37963624-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "c850b0bc-fa1a-42d3-adf3-dbf585524fc0.7pdA"
+            "batch_id_optional": "5ba5f706-c4f6-4b0a-bbb3-22c481064953.9t9O"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "95298545",
-          "album_id_optional": "19408829",
+          "playable_id": "141435063",
+          "album_id_optional": "37608081",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "САМИМ СОБОЙ",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/4581417/990abbf4.a.19408829-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Crusher",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15317937/55bb7c54.a.37608081-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "c850b0bc-fa1a-42d3-adf3-dbf585524fc0.7pdA"
+            "batch_id_optional": "5ba5f706-c4f6-4b0a-bbb3-22c481064953.9t9O"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144220516",
-          "album_id_optional": "38751470",
+          "playable_id": "91828452",
+          "album_id_optional": "18890761",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Дорогу осилит идущий.",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/16485602/eff6539c.a.38751470-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Бросишь меня",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16616584/359a9910.a.18890761-3/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "c850b0bc-fa1a-42d3-adf3-dbf585524fc0.7pdA"
+            "batch_id_optional": "5ba5f706-c4f6-4b0a-bbb3-22c481064953.9t9O"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "121701020",
-          "album_id_optional": "29303966",
+          "playable_id": "117341639",
+          "album_id_optional": "27364342",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "GÜZEL VE İDDİALI",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/9838169/26a9500f.a.29303966-2/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "PROSHU",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/10210263/5a37de89.a.27364342-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "c850b0bc-fa1a-42d3-adf3-dbf585524fc0.7pdA"
+            "batch_id_optional": "b56ba769-e301-409a-a415-7f383c9fd633.On29"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "16739885",
-          "album_id_optional": "2788797",
+          "playable_id": "148830776",
+          "album_id_optional": "40945218",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Me And My Broken Heart",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/32236/9f354380.a.2788797-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Чегери (Afro-house)",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/17681324/6772ffe1.a.40945218-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "3ab06dc9-e2f2-4dd7-9030-4e0cd516e75e.accN"
+            "batch_id_optional": "b56ba769-e301-409a-a415-7f383c9fd633.On29"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "134660453",
-          "album_id_optional": "34717991",
+          "playable_id": "68348391",
+          "album_id_optional": "11322908",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Дом",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/13529784/c5d4af0c.a.34717991-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Yamakasi",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/2358262/410e8a7a.a.11322908-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "3ab06dc9-e2f2-4dd7-9030-4e0cd516e75e.accN"
+            "batch_id_optional": "b56ba769-e301-409a-a415-7f383c9fd633.On29"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "143672911",
-          "album_id_optional": "38522461",
+          "playable_id": "74611690",
+          "album_id_optional": "13052128",
           "playable_type": "TRACK",
-          "from": "radio-mobile-default",
-          "title": "Осень это ты",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15401259/b2da5297.a.38522461-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Чистый",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/2442093/87d2f033.a.13052128-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "3ab06dc9-e2f2-4dd7-9030-4e0cd516e75e.accN"
+            "batch_id_optional": "b56ba769-e301-409a-a415-7f383c9fd633.On29"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "135868354",
-          "album_id_optional": "35289630",
+          "playable_id": "101024015",
+          "album_id_optional": "21264876",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Пятница",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15406468/073bb2a5.a.35289630-2/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Автор",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/5696151/0fac6a29.a.21264876-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "57ab0abb-7f18-4a3e-8c2d-9196230db638.E2SS"
+            "batch_id_optional": "b56ba769-e301-409a-a415-7f383c9fd633.On29"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "73145757",
-          "album_id_optional": "12663836",
+          "playable_id": "122159518",
+          "album_id_optional": "29519070",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Rest of My Life",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/2810397/c9adbf36.a.12663836-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Красивая",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/9838169/109e7df1.a.29519070-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "57ab0abb-7f18-4a3e-8c2d-9196230db638.E2SS"
+            "batch_id_optional": "4d4c9d78-8f94-42b9-a426-871a675dd097.QwJt"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "110773923",
-          "album_id_optional": "24658726",
+          "playable_id": "138808248",
+          "album_id_optional": "36476693",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Lift Me Up",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/8316823/7a6b9c59.a.24658726-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Lose My Mind  [From F1® The Movie]",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15499524/57d231d6.a.36476693-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "57ab0abb-7f18-4a3e-8c2d-9196230db638.E2SS"
+            "batch_id_optional": "4d4c9d78-8f94-42b9-a426-871a675dd097.QwJt"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "65691299",
-          "album_id_optional": "11218160",
+          "playable_id": "25218382",
+          "album_id_optional": "12132488",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Obvious Guy",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/2424959/0661e3ea.a.11218160-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Я счастливый",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/3318009/d397d107.a.12132488-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "57ab0abb-7f18-4a3e-8c2d-9196230db638.E2SS"
+            "batch_id_optional": "4d4c9d78-8f94-42b9-a426-871a675dd097.QwJt"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "81316582",
-          "album_id_optional": "15486288",
+          "playable_id": "137162449",
+          "album_id_optional": "35810805",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Ascend",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/4387391/8dafb28f.a.15486288-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "DUMB Remix",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/14651289/95b1f6f6.a.35810805-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "57ab0abb-7f18-4a3e-8c2d-9196230db638.E2SS"
+            "batch_id_optional": "4d4c9d78-8f94-42b9-a426-871a675dd097.QwJt"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "105794222",
-          "album_id_optional": "22959233",
+          "playable_id": "148391864",
+          "album_id_optional": "40741203",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "VOKZAL",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/6447985/26f066d9.a.22959233-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Аромат",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/17740720/50d5cb21.a.40741203-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "a4313c26-afe5-4f0b-97a5-a567ad52a594.JpXd"
+            "batch_id_optional": "4d4c9d78-8f94-42b9-a426-871a675dd097.QwJt"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "108028599",
-          "album_id_optional": "23771791",
+          "playable_id": "144083866",
+          "album_id_optional": "38688580",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Самолеты",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/16508792/569322b4.a.23771791-3/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "GO!",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16469857/e5b899e0.a.38688580-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "a4313c26-afe5-4f0b-97a5-a567ad52a594.JpXd"
+            "batch_id_optional": "153aac83-67b2-40ae-9a6c-a623d7ee7d82.mAkJ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "79543608",
-          "album_id_optional": "14466837",
+          "playable_id": "149050390",
+          "album_id_optional": "41058090",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "One More Touch",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/4467280/43580863.a.14466837-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Речь, которая меняет мышление",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/18132539/f6f69162.a.41058090-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "a4313c26-afe5-4f0b-97a5-a567ad52a594.JpXd"
+            "batch_id_optional": "153aac83-67b2-40ae-9a6c-a623d7ee7d82.mAkJ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "122525496",
-          "album_id_optional": "29647961",
+          "playable_id": "141537630",
+          "album_id_optional": "37654046",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "At Your Worst",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/9867886/e682a401.a.29647961-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "六爻(Hexagrams)",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/14304155/7a439679.a.37654046-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "a4313c26-afe5-4f0b-97a5-a567ad52a594.JpXd"
+            "batch_id_optional": "153aac83-67b2-40ae-9a6c-a623d7ee7d82.mAkJ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "37817910",
-          "album_id_optional": "5976509",
+          "playable_id": "105101215",
+          "album_id_optional": "22705379",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Snowman",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/114728/13f824e8.a.5976509-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Под солнцем",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/6447985/a67b16fe.a.22705379-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "a4313c26-afe5-4f0b-97a5-a567ad52a594.JpXd"
+            "batch_id_optional": "153aac83-67b2-40ae-9a6c-a623d7ee7d82.mAkJ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144891028",
-          "album_id_optional": "39065764",
+          "playable_id": "138033679",
+          "album_id_optional": "36154705",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Медленный танец",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15406468/9d4566c6.a.39065764-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Шарады",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/12554677/6409cee5.a.36154705-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "61620e7f-24d7-46ec-a737-b89071d78a6b.Si5j"
+            "batch_id_optional": "153aac83-67b2-40ae-9a6c-a623d7ee7d82.mAkJ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "36709779",
-          "album_id_optional": "4822483",
+          "playable_id": "133672462",
+          "album_id_optional": "37546260",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Masterpiece",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/143117/d3c6b625.a.4822483-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Big Dawgs",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/14662984/cd480ec8.a.37546260-2/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "61620e7f-24d7-46ec-a737-b89071d78a6b.Si5j"
+            "batch_id_optional": "5fea2d9e-0b9f-4441-a33a-bd0607cb684f.5NkQ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144239978",
-          "album_id_optional": "38760055",
+          "playable_id": "1171",
+          "album_id_optional": "23855",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Кофе будешь?",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/16450533/dbab41ba.a.38760055-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Bagpipes From Baghdad",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/163479/2dc6f4fd.a.23855-5/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "61620e7f-24d7-46ec-a737-b89071d78a6b.Si5j"
+            "batch_id_optional": "5fea2d9e-0b9f-4441-a33a-bd0607cb684f.5NkQ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "108048020",
-          "album_id_optional": "23779186",
+          "playable_id": "59849537",
+          "album_id_optional": "9638000",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Наивно",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/9837405/8780936a.a.23779186-2/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "До-Ма",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/2383988/c0876ac3.a.9638000-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "61620e7f-24d7-46ec-a737-b89071d78a6b.Si5j"
+            "batch_id_optional": "5fea2d9e-0b9f-4441-a33a-bd0607cb684f.5NkQ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "120229608",
-          "album_id_optional": "28632396",
+          "playable_id": "38320",
+          "album_id_optional": "3169",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Jamal",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/5503671/1c62c486.a.28632396-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Bandoleros",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/34131/6627b93b.a.3169-4/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "61620e7f-24d7-46ec-a737-b89071d78a6b.Si5j"
+            "batch_id_optional": "5fea2d9e-0b9f-4441-a33a-bd0607cb684f.5NkQ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "144942048",
-          "album_id_optional": "39089782",
+          "playable_id": "122423142",
+          "album_id_optional": "29646478",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Портрет",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15042045/09e45e73.a.39089782-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Sprinter",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/10930741/e3b8f1f4.a.29646478-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "d3d04c66-b256-443c-a487-3343b2f27ff0.TJWR"
+            "batch_id_optional": "5fea2d9e-0b9f-4441-a33a-bd0607cb684f.5NkQ"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "131245507",
-          "album_id_optional": "33334779",
+          "playable_id": "135815796",
+          "album_id_optional": "37447995",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Doo-Be-Doo",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/14299670/7b2d5c8d.a.33334779-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Ordinary",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/14304155/60ddaec9.a.37447995-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "d3d04c66-b256-443c-a487-3343b2f27ff0.TJWR"
+            "batch_id_optional": "1257dc5b-505b-4df1-9b46-9bb7e24d69ee.mNkN"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "145322780",
-          "album_id_optional": "39268756",
+          "playable_id": "148212494",
+          "album_id_optional": "40659731",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Дом",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/16496077/407a9261.a.39268756-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Bleeding Through The Blues",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/17659240/f7f61bc5.a.40659731-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "d3d04c66-b256-443c-a487-3343b2f27ff0.TJWR"
+            "batch_id_optional": "1257dc5b-505b-4df1-9b46-9bb7e24d69ee.mNkN"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "68947975",
-          "album_id_optional": "11479868",
+          "playable_id": "148603833",
+          "album_id_optional": "40842560",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Working For The Weekend",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/2427101/814c832c.a.11479868-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Fire On Fire (Afro Soul)",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16334817/26519328.a.40842560-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "d3d04c66-b256-443c-a487-3343b2f27ff0.TJWR"
+            "batch_id_optional": "1257dc5b-505b-4df1-9b46-9bb7e24d69ee.mNkN"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "10652393",
-          "album_id_optional": "1154047",
+          "playable_id": "65385233",
+          "album_id_optional": "10577111",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Get Lucky",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/42108/5dd9f3c4.a.1154047-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Bass Bells and Cats",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/2789402/379e4f2a.a.10577111-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "d3d04c66-b256-443c-a487-3343b2f27ff0.TJWR"
+            "batch_id_optional": "1257dc5b-505b-4df1-9b46-9bb7e24d69ee.mNkN"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "141442885",
-          "album_id_optional": "37611839",
+          "playable_id": "147774371",
+          "album_id_optional": "40470454",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Годы",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15401259/a728553b.a.37611839-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Exit Came Too Late",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16485602/99db7037.a.40470454-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "968d5ad3-0bcb-4f47-9a18-d9b764626aa1.Mc78"
+            "batch_id_optional": "1257dc5b-505b-4df1-9b46-9bb7e24d69ee.mNkN"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "103018",
-          "album_id_optional": "9653",
+          "playable_id": "86758855",
+          "album_id_optional": "19280829",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Relax, Take It Easy",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/49876/5eb19b64.a.9653-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Birkin",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/5413882/46f7085c.a.19280829-2/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "968d5ad3-0bcb-4f47-9a18-d9b764626aa1.Mc78"
+            "batch_id_optional": "1c16a7bb-d032-4098-97bf-b31608f736fb.8M7v"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "59133798",
-          "album_id_optional": "9039205",
+          "playable_id": "130931001",
+          "album_id_optional": "33212259",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "моя",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15317937/9e1cbd8e.a.9039205-2/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Мерин",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16154377/88b76c2a.a.33212259-2/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "968d5ad3-0bcb-4f47-9a18-d9b764626aa1.Mc78"
+            "batch_id_optional": "1c16a7bb-d032-4098-97bf-b31608f736fb.8M7v"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "136070032",
-          "album_id_optional": "35376389",
+          "playable_id": "115533003",
+          "album_id_optional": "26612314",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Брату",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15317937/69203ffc.a.35376389-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "В сигаретном дыму",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/9838169/be7af9e0.a.26612314-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "968d5ad3-0bcb-4f47-9a18-d9b764626aa1.Mc78"
+            "batch_id_optional": "1c16a7bb-d032-4098-97bf-b31608f736fb.8M7v"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "23668207",
-          "album_id_optional": "2734933",
+          "playable_id": "78200792",
+          "album_id_optional": "13953103",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Shots",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/49876/dc243f86.a.2734933-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Il tempo se ne va",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/4010467/b5c034b1.a.13953103-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "968d5ad3-0bcb-4f47-9a18-d9b764626aa1.Mc78"
+            "batch_id_optional": "1c16a7bb-d032-4098-97bf-b31608f736fb.8M7v"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         },
         {
-          "playable_id": "145077930",
-          "album_id_optional": "39149821",
+          "playable_id": "100116999",
+          "album_id_optional": "20973076",
           "playable_type": "TRACK",
-          "from": "radio-mobile-user-onyourwave-default",
-          "title": "Дорогой мой человек",
-          "cover_url_optional": "avatars.yandex.net/get-music-content/15134515/85df7280.a.39149821-1/%%",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Smoke like a GG",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/5696151/7404d55a.a.20973076-1/%%",
           "track_info": {
             "track_source_key": 0,
-            "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
+            "batch_id_optional": "1c16a7bb-d032-4098-97bf-b31608f736fb.8M7v"
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "145511984",
+          "album_id_optional": "39373953",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Однушка",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16616584/e6cae50a.a.39373953-1/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "1752ccd6-8f50-472e-bda9-9c933826e900.oxFi"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "148918508",
+          "album_id_optional": "40990680",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Bad",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16334817/b8e8b24b.a.40990680-1/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "1752ccd6-8f50-472e-bda9-9c933826e900.oxFi"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "145377025",
+          "album_id_optional": "39300797",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "TRAVIS SCOTT",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15682289/6bf819bd.a.39300797-3/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "1752ccd6-8f50-472e-bda9-9c933826e900.oxFi"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "48542855",
+          "album_id_optional": "6614874",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Freeman",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/108289/82bf96df.a.6614874-1/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "1752ccd6-8f50-472e-bda9-9c933826e900.oxFi"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "143267352",
+          "album_id_optional": "38361546",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Atajurt",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/15134515/aa5204ee.a.38361546-1/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "1752ccd6-8f50-472e-bda9-9c933826e900.oxFi"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "75432867",
+          "album_id_optional": "13250820",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "ПРИВЫЧКА",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/3226792/396783cc.a.13250820-1/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
+        },
+        {
+          "playable_id": "39174222",
+          "album_id_optional": "14174099",
+          "playable_type": "TRACK",
+          "from": "mobile-home-rup_main-user-onyourwave-default",
+          "title": "Небо над землёй",
+          "cover_url_optional": "avatars.yandex.net/get-music-content/16616584/2d49425d.a.14174099-2/%%",
+          "track_info": {
+            "track_source_key": 0,
+            "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
+          },
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         }
       ],
       "options": {
@@ -540,93 +638,79 @@
       },
       "version": {
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
-        "version": "2877885555136556981",
-        "timestamp_ms": "1764446654147"
+        "version": "2523799147361836063",
+        "timestamp_ms": "1774826850626"
       },
       "entity_context": "BASED_ON_ENTITY_BY_DEFAULT",
       "adding_options_optional": {
         "radio_options": {
-          "session_id": "VsAs-27h7uiC1c9vjoL-abUx"
+          "session_id": "RzjI-iAC1lAMkQBKfjl-a3zN"
         }
       },
       "queue": {
         "wave_queue": {
           "recommended_playable_list": [
             {
-              "playable_id": "145077930",
-              "album_id_optional": "39149821",
+              "playable_id": "39174222",
+              "album_id_optional": "14174099",
               "playable_type": "TRACK",
-              "from": "radio-mobile-user-onyourwave-default",
-              "title": "Дорогой мой человек",
-              "cover_url_optional": "avatars.yandex.net/get-music-content/15134515/85df7280.a.39149821-1/%%",
+              "from": "mobile-home-rup_main-user-onyourwave-default",
+              "title": "Небо над землёй",
+              "cover_url_optional": "avatars.yandex.net/get-music-content/16616584/2d49425d.a.14174099-2/%%",
               "track_info": {
                 "track_source_key": 0,
-                "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
+                "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
               },
-              "navigation_id_optional": "",
-              "playback_action_id_optional": ""
+              "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+              "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
             },
             {
-              "playable_id": "108348114",
-              "album_id_optional": "23889631",
+              "playable_id": "144509491",
+              "album_id_optional": "38892829",
               "playable_type": "TRACK",
-              "from": "radio-mobile-user-onyourwave-default",
-              "title": "Home",
-              "cover_url_optional": "avatars.yandex.net/get-music-content/7548376/cc093581.a.23889631-1/%%",
+              "from": "mobile-home-rup_main-user-onyourwave-default",
+              "title": "HIGHEST IN THE ROOM",
+              "cover_url_optional": "avatars.yandex.net/get-music-content/16464214/61842890.a.38892829-2/%%",
               "track_info": {
                 "track_source_key": 0,
-                "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
+                "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
               },
-              "navigation_id_optional": "",
-              "playback_action_id_optional": ""
+              "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+              "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
             },
             {
-              "playable_id": "135330977",
-              "album_id_optional": "35042642",
+              "playable_id": "2308847",
+              "album_id_optional": "13220885",
               "playable_type": "TRACK",
-              "from": "radio-mobile-user-onyourwave-default",
-              "title": "Увидимся!",
-              "cover_url_optional": "avatars.yandex.net/get-music-content/14707562/1575860d.a.35042642-1/%%",
+              "from": "mobile-home-rup_main-user-onyourwave-default",
+              "title": "We Are The People",
+              "cover_url_optional": "avatars.yandex.net/get-music-content/2810397/0041cfa7.a.13220885-1/%%",
               "track_info": {
                 "track_source_key": 0,
-                "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
+                "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
               },
-              "navigation_id_optional": "",
-              "playback_action_id_optional": ""
+              "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+              "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
             },
             {
-              "playable_id": "131641563",
-              "album_id_optional": "33492415",
+              "playable_id": "22001762",
+              "album_id_optional": "2532510",
               "playable_type": "TRACK",
-              "from": "radio-mobile-user-onyourwave-default",
-              "title": "Мосты",
-              "cover_url_optional": "avatars.yandex.net/get-music-content/13911897/37f63260.a.33492415-1/%%",
+              "from": "mobile-home-rup_main-user-onyourwave-default",
+              "title": "See You Again",
+              "cover_url_optional": "avatars.yandex.net/get-music-content/33216/6c86369d.a.2532510-1/%%",
               "track_info": {
                 "track_source_key": 0,
-                "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
+                "batch_id_optional": "584f1917-f9d9-4f6b-9234-7336cdfc44d1.4nvo"
               },
-              "navigation_id_optional": "",
-              "playback_action_id_optional": ""
-            },
-            {
-              "playable_id": "74728863",
-              "album_id_optional": "25238773",
-              "playable_type": "TRACK",
-              "from": "radio-mobile-user-onyourwave-default",
-              "title": "My Oh My",
-              "cover_url_optional": "avatars.yandex.net/get-music-content/8871869/4244cdfb.a.25238773-1/%%",
-              "track_info": {
-                "track_source_key": 0,
-                "batch_id_optional": "aeeb488f-0d79-4870-8456-f1aefca0f564.fIzN"
-              },
-              "navigation_id_optional": "",
-              "playback_action_id_optional": ""
+              "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+              "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
             }
           ],
-          "live_playable_index": 35,
+          "live_playable_index": 42,
           "entity_options": {
             "wave_entity_optional": {
-              "session_id": "VsAs-27h7uiC1c9vjoL-abUx"
+              "session_id": "RzjI-iAC1lAMkQBKfjl-a3zN"
             },
             "track_sources": [
               {
@@ -637,12 +721,12 @@
               }
             ]
           },
-          "navigation_id_optional": "",
-          "playback_action_id_optional": ""
+          "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+          "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
         }
       },
-      "navigation_id_optional": "",
-      "playback_action_id_optional": ""
+      "navigation_id_optional": "android_tab_18eeb9ac-c344-4880-bae4-619a9de238b9",
+      "playback_action_id_optional": "2bc3826f-b023-427d-88ff-34c5691eec32"
     }
   },
   "devices": [
@@ -651,29 +735,30 @@
         "device_id": "bd9fec84948fae03a2ad8e245682da6d",
         "title": "samsung SM-S916B",
         "type": "ANDROID",
-        "app_name": "",
-        "app_version": ""
+        "app_name": "Yandex Music",
+        "app_version": "2026.03.3 #139gpr"
       },
-      "volume": 0.0,
+      "volume": 0.2667,
       "capabilities": {
         "can_be_player": true,
         "can_be_remote_controller": true,
-        "volume_granularity": 0
+        "volume_granularity": 15
       },
       "session": {
-        "id": "0"
+        "id": "1130492641802415949"
       },
-      "is_offline": true,
+      "is_offline": false,
       "volume_info": {
-        "volume": 0.0,
+        "volume": 0.2667,
         "version": {
-          "device_id": "",
-          "version": "0",
-          "timestamp_ms": "0"
+          "device_id": "bd9fec84948fae03a2ad8e245682da6d",
+          "version": "4978564057923958459",
+          "timestamp_ms": "1774822225816"
         }
       }
     }
   ],
-  "timestamp_ms": "1764446654147",
-  "rid": "ac281c26-a047-4419-ad00-e4fbfda1cba3"
+  "active_device_id_optional": "bd9fec84948fae03a2ad8e245682da6d",
+  "timestamp_ms": "1774822223077",
+  "rid": "db28bb86-c2c1-483f-adc3-e15fe0d75a5f"
 }

@@ -4,7 +4,7 @@ This demonstrates that multiple calls to get_client() return the same
 cached connection instance, avoiding repeated connection overhead.
 """
 import sys
-from scripts.session_manager import get_client, get_cache_info
+from scripts.session_manager import get_client
 
 
 def test_connection_caching():
@@ -13,15 +13,13 @@ def test_connection_caching():
     
     # First call - creates new connection
     print("1️⃣  First call to get_client()...")
-    client1 = get_client("Tess2")
-    print(f"   ✅ Client created: {id(client1)}")
-    print(f"   Cache info: {get_cache_info()}\n")
+    client1 = get_client()
+    print(f"   ✅ Client created: {id(client1)}\n")
     
     # Second call - should return cached connection
     print("2️⃣  Second call to get_client()...")
-    client2 = get_client("Tess2")
-    print(f"   ✅ Client retrieved: {id(client2)}")
-    print(f"   Cache info: {get_cache_info()}\n")
+    client2 = get_client()
+    print(f"   ✅ Client retrieved: {id(client2)}\n")
     
     # Verify they're the same object
     if client1 is client2:
@@ -34,8 +32,8 @@ def test_connection_caching():
     
     # Third call - still cached
     print("3️⃣  Third call to get_client()...")
-    client3 = get_client("Tess2")
-    print(f"   ✅ Client retrieved: {id(client3)}")
+    client3 = get_client()
+    print(f"   ✅ Client retrieved: {id(client3)}\n")
     
     if client1 is client3:
         print("   ✅ Same cached connection returned\n")
